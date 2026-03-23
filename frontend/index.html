@@ -8,12 +8,12 @@
     <title>Ashnex Agrotrade | Premium Indian Agri Products</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23D4AF37'>🌾</text></svg>">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%232E7D32'>🌾</text></svg>">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
@@ -22,12 +22,41 @@
 <body>
     <div id="app">
         <!-- Floating WhatsApp Button -->
-        <a href="https://wa.me/919999999999?text=Hi%20Ashnex%20Agrotrade%2C%20I%20interested%20in%20bulk%20orders" 
+        <a href="https://wa.me/919999999999?text=Hi%20Ashnex%20Agrotrade%2C%20I'm%20interested%20in%20bulk%20orders" 
            target="_blank" 
            class="floating-whatsapp" 
            title="Chat with us on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
+
+        <!-- Scroll to Top -->
+        <button class="scroll-top" @click="scrollToTop" :class="{ visible: scrollPosition > 300 }" title="Back to top">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-content">
+                    <div class="top-bar-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>New Delhi, India</span>
+                    </div>
+                    <div class="top-bar-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <a href="tel:+919999999999">+91 9999 999 999</a>
+                    </div>
+                    <div class="top-bar-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon - Sat: 10:00 AM - 7:00 PM</span>
+                    </div>
+                    <div class="top-bar-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Navigation Bar -->
         <nav class="navbar">
@@ -35,7 +64,7 @@
                 <div class="navbar-logo">
                     <a href="index.html">
                         <span class="logo-icon">🌾</span>
-                        <span class="logo-text">Ashnex</span>
+                        <span class="logo-text">Ashnex Agrotrade</span>
                     </a>
                 </div>
                 
@@ -49,51 +78,26 @@
                 <!-- Navigation Links -->
                 <ul class="nav-menu" :class="{ active: menuOpen }">
                     <li><a href="index.html" @click="menuOpen = false" class="active">Home</a></li>
-                    <li><a href="about.html" @click="menuOpen = false">About</a></li>
-                    <li><a href="products.html" @click="menuOpen = false">Products</a></li>
+                    <li><a href="about.html" @click="menuOpen = false">About Us</a></li>
+                    <li><a href="products.html" @click="menuOpen = false">Our Products</a></li>
                     <li><a href="services.html" @click="menuOpen = false">Services</a></li>
-                    <li><a href="contact.html" @click="menuOpen = false">Contact</a></li>
-                    <li><a class="cta-btn" href="contact.html" @click="menuOpen = false">Get Started</a></li>
+                    <li><a href="contact.html" @click="menuOpen = false">Contact Us</a></li>
+                    <li><a class="cta-btn" href="contact.html" @click="menuOpen = false">Get A Quote</a></li>
                 </ul>
             </div>
         </nav>
 
         <!-- Hero Section -->
-        <section id="home" class="hero">
-            <!-- Rich Background Elements -->
-            <div class="hero-background">
-                <div class="bg-pattern-top"></div>
-                <div class="bg-pattern-bottom"></div>
-                <div class="floating-leaf leaf-1">🍃</div>
-                <div class="floating-leaf leaf-2">🌱</div>
-                <div class="floating-leaf leaf-3">🍂</div>
-                <div class="floating-leaf leaf-4">🌿</div>
-                <div class="floating-shape shape-1"></div>
-                <div class="floating-shape shape-2"></div>
-                <div class="floating-shape shape-3"></div>
-                <svg class="bg-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
-                    <defs>
-                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.05" />
-                            <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0.05" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M0,300 Q300,200 600,300 T1200,300 L1200,600 L0,600 Z" fill="url(#grad1)" />
-                    <circle cx="100" cy="100" r="80" fill="none" stroke="#059669" stroke-width="1" opacity="0.1" />
-                    <circle cx="1100" cy="500" r="120" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.1" />
-                </svg>
-            </div>
-            
-            <div class="hero-overlay"></div>
+        <section class="hero">
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
                         <span class="hero-badge-top">🌍 Trusted by 1000+ Customers Globally</span>
-                        <h1 style="color: #059669;">Premium <span class="gradient-text">Indian Agricultural</span> Products</h1>
-                        <p class="hero-subtitle" style="color: #059669;">Global supplier of finest quality commodities — Cashew, Ginger, Turmeric & more. From farm to world's table.</p>
+                        <h1>Premium <span class="gradient-text">Indian Agricultural</span> Products</h1>
+                        <p class="hero-subtitle">Global supplier of finest quality commodities — Cashew, Ginger, Turmeric & more. From farm to world's table.</p>
                         <div class="hero-buttons">
-                            <a href="products.html" class="btn btn-primary">Explore Products</a>
-                            <a href="contact.html" class="btn btn-secondary">Request Quote</a>
+                            <a href="products.html" class="btn btn-white btn-large">Explore Products</a>
+                            <a href="contact.html" class="btn btn-outline btn-large" style="border-color:#fff;color:#fff;">Request Quote</a>
                         </div>
                         <div class="hero-badges">
                             <div class="badge">
@@ -111,30 +115,22 @@
                         </div>
                     </div>
                     <div class="hero-image">
-                        <div class="product-showcase">
-                            <div class="showcase-item item-1">🌾</div>
-                            <div class="showcase-item item-2">🥜</div>
-                            <div class="showcase-item item-3">📦</div>
-                        </div>
+                        <img src="images/hero-bg.png" alt="Premium Indian Agricultural Products - Cashew, Ginger, Turmeric, Spices">
                     </div>
                 </div>
             </div>
-            <!-- Scroll Indicator -->
-            <div class="scroll-indicator">
-                <span></span>
-            </div>
         </section>
 
-        <!-- Trust Section - Three Pillars -->
+        <!-- About / Trust Section -->
         <section class="trust">
             <div class="container">
-                <h2 class="section-title">Why Choose Ashnex?</h2>
-                <p class="section-subtitle">Our commitment to excellence in every transaction</p>
+                <h2 class="section-title">About us</h2>
+                <p class="section-subtitle">Welcome to Ashnex Agrotrade, your trusted partner for premium-quality Indian agricultural exports. We are committed to ensuring unparalleled customer satisfaction through:</p>
                 <div class="trust-grid three-pillars">
                     <div class="trust-item">
                         <div class="trust-icon">💎</div>
                         <h4>Unmatched Quality</h4>
-                        <p>We source the finest agricultural products from premium farms across India. Every item undergoes rigorous testing to ensure it meets the highest international standards. Your success is built on our quality.</p>
+                        <p>We source the finest agricultural products from premium farms across India. Every item undergoes rigorous testing to ensure it meets the highest international standards.</p>
                         <ul class="feature-list">
                             <li>✓ ISO 9001:2015 Certified</li>
                             <li>✓ FSSAI & APEDA Approved</li>
@@ -144,7 +140,7 @@
                     <div class="trust-item">
                         <div class="trust-icon">💰</div>
                         <h4>Competitive Pricing</h4>
-                        <p>We understand the importance of value for your business. Our streamlined supply chain and direct sourcing from farmers allow us to offer the most competitive pricing without compromising on quality.</p>
+                        <p>Our streamlined supply chain and direct sourcing from farmers allow us to offer the most competitive pricing without compromising on quality.</p>
                         <ul class="feature-list">
                             <li>✓ Direct farm sourcing</li>
                             <li>✓ No middlemen overhead</li>
@@ -154,7 +150,7 @@
                     <div class="trust-item">
                         <div class="trust-icon">🤝</div>
                         <h4>Exceptional Service</h4>
-                        <p>Our dedicated team is committed to exceeding your expectations. From order placement to delivery, we provide seamless communication, reliable logistics, and 24/7 customer support throughout your journey with us.</p>
+                        <p>From order placement to delivery, we provide seamless communication, reliable logistics, and 24/7 customer support throughout your journey with us.</p>
                         <ul class="feature-list">
                             <li>✓ 24/7 customer support</li>
                             <li>✓ Real-time tracking</li>
@@ -162,64 +158,113 @@
                         </ul>
                     </div>
                 </div>
-                <div class="trust-additional">
-                    <div class="trust-item">
-                        <div class="trust-icon">✓</div>
-                        <h4>Export Ready</h4>
-                        <p>Complete documentation and compliance for global shipment</p>
+            </div>
+        </section>
+
+        <!-- Quality Section -->
+        <section class="quality-process">
+            <div class="container">
+                <h2 class="section-title white">Ashnex Agrotrade: Quality You Can Trust, Delivered Fresh.</h2>
+                <p class="section-subtitle white">At Ashnex, quality is paramount. We implement stringent quality control measures throughout the entire supply chain, from sourcing the finest produce to meticulous handling and secure transportation.</p>
+                <div class="quality-steps">
+                    <div class="quality-step">
+                        <div class="step-icon">🌾</div>
+                        <h3>Farm Sourcing</h3>
+                        <p>Carefully selected from trusted organic farms with premium-grade crops across India.</p>
                     </div>
-                    <div class="trust-item">
-                        <div class="trust-icon">✓</div>
-                        <h4>Quality Tested</h4>
-                        <p>Rigorous testing ensuring purity and composition standards</p>
+                    <div class="quality-step">
+                        <div class="step-icon">🔬</div>
+                        <h3>Testing & Analysis</h3>
+                        <p>Complete lab testing for purity, pesticides, moisture, and contamination.</p>
                     </div>
-                    <div class="trust-item">
-                        <div class="trust-icon">✓</div>
-                        <h4>Premium Grade</h4>
-                        <p>Only finest agricultural commodities selected for supply</p>
+                    <div class="quality-step">
+                        <div class="step-icon">⚙️</div>
+                        <h3>Processing</h3>
+                        <p>State-of-the-art processing facilities with temperature and humidity control.</p>
                     </div>
-                    <div class="trust-item">
-                        <div class="trust-icon">✓</div>
-                        <h4>Verified Seller</h4>
-                        <p>Trusted by 1000+ businesses across 50+ countries worldwide</p>
+                    <div class="quality-step">
+                        <div class="step-icon">📦</div>
+                        <h3>Packaging</h3>
+                        <p>Premium food-grade packaging preventing contamination with climate control.</p>
+                    </div>
+                    <div class="quality-step">
+                        <div class="step-icon">📤</div>
+                        <h3>Export & Logistics</h3>
+                        <p>Customs-cleared shipments with complete documentation for global delivery.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Process Section -->
-        <section class="process">
+        <!-- Products Preview -->
+        <section class="products">
             <div class="container">
-                <h2 class="section-title">Our Order Process</h2>
-                <p class="section-subtitle">Fast, Transparent & Reliable Supply Chain</p>
-                <div class="process-timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-number">01</div>
-                        <div class="timeline-icon">📋</div>
-                        <h3>Inquiry</h3>
-                        <p>Submit your bulk order requirements and specifications</p>
+                <h2 class="section-title">Our Premium Products</h2>
+                <p class="section-subtitle" style="color:rgba(255,255,255,0.85);">Explore our range of premium Indian agricultural products, exported to 50+ countries worldwide.</p>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image" style="background:#fff3cd;">
+                            <img src="images/cashew.png" alt="Premium Cashew Nuts">
+                            <span class="product-badge">Premium</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Premium Cashew</h3>
+                            <p class="product-description">High-quality cashew nuts, perfectly roasted and graded for premium export markets worldwide.</p>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-cubes"></i> <strong>Min Order:</strong> 500 kg</span>
+                                <span class="spec"><i class="fas fa-star"></i> <strong>Grade:</strong> W240/W180</span>
+                            </div>
+                            <a href="contact.html" class="btn btn-primary btn-quote">Request Quote</a>
+                        </div>
                     </div>
-                    <div class="timeline-connector"></div>
-                    <div class="timeline-item">
-                        <div class="timeline-number">02</div>
-                        <div class="timeline-icon">⚙️</div>
-                        <h3>Processing</h3>
-                        <p>Quality verification, documentation & shipping preparation</p>
+                    <div class="product-card">
+                        <div class="product-image" style="background:#fdd7e7;">
+                            <img src="images/ginger.png" alt="Organic Ginger">
+                            <span class="product-badge">Premium</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Organic Ginger</h3>
+                            <p class="product-description">Fresh, organic ginger from Indian farms, ideal for spice markets worldwide with natural goodness.</p>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-cubes"></i> <strong>Min Order:</strong> 1 ton</span>
+                                <span class="spec"><i class="fas fa-star"></i> <strong>Grade:</strong> Export Grade A</span>
+                            </div>
+                            <a href="contact.html" class="btn btn-primary btn-quote">Request Quote</a>
+                        </div>
                     </div>
-                    <div class="timeline-connector"></div>
-                    <div class="timeline-item">
-                        <div class="timeline-number">03</div>
-                        <div class="timeline-icon">🚀</div>
-                        <h3>Shipping</h3>
-                        <p>Expert logistics handling with real-time tracking</p>
+                    <div class="product-card">
+                        <div class="product-image" style="background:#ffe5cc;">
+                            <img src="images/turmeric.png" alt="Pure Turmeric Powder">
+                            <span class="product-badge">Premium</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Pure Turmeric Powder</h3>
+                            <p class="product-description">Fine turmeric powder with high curcumin content, globally certified for international markets.</p>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-cubes"></i> <strong>Min Order:</strong> 500 kg</span>
+                                <span class="spec"><i class="fas fa-star"></i> <strong>Grade:</strong> ASTA 1.8%</span>
+                            </div>
+                            <a href="contact.html" class="btn btn-primary btn-quote">Request Quote</a>
+                        </div>
                     </div>
-                    <div class="timeline-connector"></div>
-                    <div class="timeline-item">
-                        <div class="timeline-number">04</div>
-                        <div class="timeline-icon">📦</div>
-                        <h3>Delivery</h3>
-                        <p>Secure delivery at your doorstep worldwide</p>
+                    <div class="product-card">
+                        <div class="product-image" style="background:#ffcccc;">
+                            <img src="images/chili.png" alt="Dried Red Chili">
+                            <span class="product-badge">Premium</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Dried Chili</h3>
+                            <p class="product-description">Premium dried chili peppers, perfect for spice blends, seasoning, and international cuisine.</p>
+                            <div class="product-specs">
+                                <span class="spec"><i class="fas fa-cubes"></i> <strong>Min Order:</strong> 250 kg</span>
+                                <span class="spec"><i class="fas fa-star"></i> <strong>Grade:</strong> Premium Red</span>
+                            </div>
+                            <a href="contact.html" class="btn btn-primary btn-quote">Request Quote</a>
+                        </div>
                     </div>
+                </div>
+                <div style="text-align:center; margin-top:2.5rem;">
+                    <a href="products.html" class="btn btn-white btn-large">View All Products →</a>
                 </div>
             </div>
         </section>
@@ -243,12 +288,12 @@
                     <div class="country-item">
                         <div class="country-icon">🇩🇪</div>
                         <h4>Europe</h4>
-                        <p>Germany, France, Netherlands</p>
+                        <p>Germany, France</p>
                     </div>
                     <div class="country-item">
                         <div class="country-icon">🇸🇬</div>
                         <h4>Asia Pacific</h4>
-                        <p>Singapore, Malaysia, Thailand</p>
+                        <p>Singapore, Malaysia</p>
                     </div>
                     <div class="country-item">
                         <div class="country-icon">🇨🇦</div>
@@ -282,11 +327,24 @@
             </div>
         </section>
 
-        <!-- Certifications & Quality Section -->
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <div>
+                        <h2>✨ Join Our Growing Network of Satisfied Clients</h2>
+                        <p>We believe in building long-term partnerships. Contact us today to discuss your specific requirements.</p>
+                    </div>
+                    <a href="contact.html" class="btn btn-primary btn-large">Contact Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
         <section class="certifications">
             <div class="container">
-                <h2 class="section-title">Quality Certifications</h2>
-                <p class="section-subtitle">Internationally recognized standards & compliance</p>
+                <h2 class="section-title centered">Our Certifications</h2>
+                <p class="section-subtitle centered">Internationally recognized standards & compliance</p>
                 <div class="certifications-grid">
                     <div class="cert-card">
                         <div class="cert-icon">📜</div>
@@ -316,109 +374,11 @@
             </div>
         </section>
 
-        <!-- Quality Assurance Process Section -->
-        <section class="quality-process">
-            <div class="container">
-                <h2 class="section-title">Our Quality Assurance Process</h2>
-                <p class="section-subtitle">From farm to export: rigorous quality control at every stage</p>
-                <div class="quality-steps">
-                    <div class="quality-step">
-                        <div class="step-icon">🌾</div>
-                        <h3>1. Farm Sourcing</h3>
-                        <p>Carefully selected from trusted organic farms with premium-grade crops. Direct sourcing ensures freshness and quality from the start.</p>
-                    </div>
-                    <div class="quality-arrow">→</div>
-                    <div class="quality-step">
-                        <div class="step-icon">🔬</div>
-                        <h3>2. Testing & Analysis</h3>
-                        <p>Complete lab testing for purity, pesticides, moisture, and contamination. Third-party certifications verify international standards.</p>
-                    </div>
-                    <div class="quality-arrow">→</div>
-                    <div class="quality-step">
-                        <div class="step-icon">⚙️</div>
-                        <h3>3. Processing</h3>
-                        <p>State-of-the-art processing facilities with temperature and humidity control. Food-safe environment with strict hygiene protocols.</p>
-                    </div>
-                    <div class="quality-arrow">→</div>
-                    <div class="quality-step">
-                        <div class="step-icon">📦</div>
-                        <h3>4. Packaging & Storage</h3>
-                        <p>Premium food-grade packaging materials prevent contamination. Climate-controlled storage until shipment with real-time inventory tracking.</p>
-                    </div>
-                    <div class="quality-arrow">→</div>
-                    <div class="quality-step">
-                        <div class="step-icon">📤</div>
-                        <h3>5. Export & Logistics</h3>
-                        <p>Customs-cleared shipments with complete documentation. Temperature-controlled containers for long-distance international delivery.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Products Section -->
-        <section id="products" class="products" style="display: none;">
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="services" style="display: none;">
-        </section>
-
-        <!-- Blog & News Section -->
-        <section class="blog">
-            <div class="container">
-                <h2 class="section-title">Latest from the Blog</h2>
-                <p class="section-subtitle">Expert insights on agricultural exports & industry trends</p>
-                <div class="blog-grid">
-                    <article class="blog-card">
-                        <div class="blog-header">
-                            <span class="blog-date">Mar 20, 2024</span>
-                            <span class="blog-category">Export Trends</span>
-                        </div>
-                        <h3>Global Demand for Indian Cashew at All-Time High</h3>
-                        <p>India accounts for 80% of global cashew exports. Learn about market trends, pricing, and opportunities for bulk buyers in 2024.</p>
-                        <div class="blog-meta">
-                            <span><i class="fas fa-user"></i> Ashnex Team</span>
-                            <span><i class="fas fa-clock"></i> 5 min read</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </article>
-
-                    <article class="blog-card">
-                        <div class="blog-header">
-                            <span class="blog-date">Mar 18, 2024</span>
-                            <span class="blog-category">Quality Tips</span>
-                        </div>
-                        <h3>How to Identify Premium Grade Spices for Export</h3>
-                        <p>Quality standards vary by market. Discover the grading system for turmeric, ginger, and other spices used by international buyers.</p>
-                        <div class="blog-meta">
-                            <span><i class="fas fa-user"></i> Ashnex Team</span>
-                            <span><i class="fas fa-clock"></i> 7 min read</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </article>
-
-                    <article class="blog-card">
-                        <div class="blog-header">
-                            <span class="blog-date">Mar 15, 2024</span>
-                            <span class="blog-category">Logistics</span>
-                        </div>
-                        <h3>Streamlining Agricultural Export Logistics</h3>
-                        <p>From documentation to customs clearance, we walk you through the complete export process and how we simplify it for our clients.</p>
-                        <div class="blog-meta">
-                            <span><i class="fas fa-user"></i> Ashnex Team</span>
-                            <span><i class="fas fa-clock"></i> 6 min read</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </article>
-                </div>
-            </div>
-        </section>
-
         <!-- Testimonials Section -->
         <section class="testimonials">
             <div class="container">
-                <h2 class="section-title">What Our Customers Say</h2>
-                <p class="section-subtitle">Trusted and loved by businesses worldwide</p>
+                <h2 class="section-title white centered">What Our Satisfied Clients Say</h2>
+                <p class="section-subtitle white centered">Our commitment to quality and exceptional service goes beyond words. Here are some testimonials from happy customers:</p>
                 <div class="testimonials-grid">
                     <div class="testimonial-card">
                         <div class="testimonial-header">
@@ -429,15 +389,10 @@
                             </div>
                         </div>
                         <div class="testimonial-rating">
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
+                            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
                         </div>
-                        <p class="testimonial-text">"Ashnex provides premium quality products with exceptional service. Their attention to detail and timely delivery has made them our preferred supplier."</p>
+                        <p class="testimonial-text">Ashnex provides premium quality products with exceptional service. Their attention to detail and timely delivery has made them our preferred supplier.</p>
                     </div>
-                    
                     <div class="testimonial-card">
                         <div class="testimonial-header">
                             <div class="testimonial-avatar">SA</div>
@@ -447,15 +402,10 @@
                             </div>
                         </div>
                         <div class="testimonial-rating">
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
+                            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
                         </div>
-                        <p class="testimonial-text">"Outstanding quality and professional support. Ashnex has consistently delivered on their promises. Highly recommended!"</p>
+                        <p class="testimonial-text">Outstanding quality and professional support. Ashnex has consistently delivered on their promises. Highly recommended!</p>
                     </div>
-                    
                     <div class="testimonial-card">
                         <div class="testimonial-header">
                             <div class="testimonial-avatar">RJ</div>
@@ -465,47 +415,59 @@
                             </div>
                         </div>
                         <div class="testimonial-rating">
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
+                            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
                         </div>
-                        <p class="testimonial-text">"Best agricultural supplier I've worked with. Their certification and quality assurance gives me complete peace of mind."</p>
+                        <p class="testimonial-text">Best agricultural supplier I've worked with. Their certification and quality assurance gives me complete peace of mind.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="cta-overlay"></div>
+        <!-- Blog Section -->
+        <section class="blog">
             <div class="container">
-                <div class="cta-content">
-                    <h2>✨ Looking for Premium Bulk Supply?</h2>
-                    <p>Join 1000+ businesses worldwide that trust Ashnex for quality agricultural commodities</p>
-                    <a href="contact.html" class="btn btn-primary btn-large pulse-effect">Request Your Custom Quote Today</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Newsletter Section -->
-        <section class="newsletter">
-            <div class="container">
-                <div class="newsletter-content">
-                    <h3>Stay Updated with Latest Offers</h3>
-                    <p>Get exclusive deals and market updates delivered to your inbox</p>
-                    <form class="newsletter-form" @submit.prevent="subscribeNewsletter">
-                        <input 
-                            v-model="newsletterEmail" 
-                            type="email" 
-                            placeholder="Enter your email" 
-                            required
-                        >
-                        <button type="submit" class="btn btn-primary glow-effect">
-                            Subscribe Now
-                        </button>
-                    </form>
+                <h2 class="section-title">Latest Blog and News</h2>
+                <p class="section-subtitle">Expert insights on agricultural exports & industry trends</p>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-header">
+                            <span class="blog-date">Mar 20, 2024</span>
+                            <span class="blog-category">Export Trends</span>
+                        </div>
+                        <h3>Global Demand for Indian Cashew at All-Time High</h3>
+                        <p>India accounts for 80% of global cashew exports. Learn about market trends and opportunities.</p>
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Ashnex Team</span>
+                            <span><i class="fas fa-clock"></i> 5 min read</span>
+                        </div>
+                        <a href="#" class="read-more">Read more →</a>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-header">
+                            <span class="blog-date">Mar 18, 2024</span>
+                            <span class="blog-category">Quality Tips</span>
+                        </div>
+                        <h3>How to Identify Premium Grade Spices for Export</h3>
+                        <p>Quality standards vary by market. Discover the grading system for turmeric, ginger, and more.</p>
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Ashnex Team</span>
+                            <span><i class="fas fa-clock"></i> 7 min read</span>
+                        </div>
+                        <a href="#" class="read-more">Read more →</a>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-header">
+                            <span class="blog-date">Mar 15, 2024</span>
+                            <span class="blog-category">Logistics</span>
+                        </div>
+                        <h3>Streamlining Agricultural Export Logistics</h3>
+                        <p>From documentation to customs clearance, the complete export process simplified.</p>
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Ashnex Team</span>
+                            <span><i class="fas fa-clock"></i> 6 min read</span>
+                        </div>
+                        <a href="#" class="read-more">Read more →</a>
+                    </article>
                 </div>
             </div>
         </section>
@@ -513,8 +475,8 @@
         <!-- FAQ Section -->
         <section class="faqs">
             <div class="container">
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-subtitle">Quick answers to common questions about our products and services</p>
+                <h2 class="section-title centered">Frequently Asked Questions</h2>
+                <p class="section-subtitle centered">Quick answers to common questions about our products and services</p>
                 <div class="faq-grid">
                     <div v-for="(faq, index) in faqs" :key="faq.id" class="faq-item" :class="{ active: faq.open }">
                         <div class="faq-question" @click="toggleFAQ(index)">
@@ -529,8 +491,17 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="contact" style="display: none;">
+        <!-- Pre-Footer CTA -->
+        <section class="cta-section" style="padding: 0 0 0 0;">
+            <div class="container">
+                <div class="cta-content">
+                    <div>
+                        <p style="color: rgba(255,255,255,0.7); margin: 0;">Need</p>
+                        <h2 style="font-size: 1.8rem;">Product Quotation?</h2>
+                    </div>
+                    <a href="contact.html" class="btn btn-primary btn-large" style="min-width:250px; text-align:center; justify-content:center;">Contact Us</a>
+                </div>
+            </div>
         </section>
 
         <!-- Footer -->
@@ -546,12 +517,11 @@
                             Mon - Sat: 10:00 AM - 7:00 PM<br>
                             Sunday: By Appointment
                         </p>
-                        <div class="social-links footer-social">
+                        <div class="social-links">
                             <a href="https://www.facebook.com/ashnexagrotrade" title="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
                             <a href="https://www.instagram.com/ashnexagrotrade" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
                             <a href="https://www.linkedin.com/company/ashnex-agrotrade" title="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                             <a href="https://www.youtube.com/@ashnexagrotrade" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
-                            <a href="https://wa.me/919999999999" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
                     <div class="footer-section">
@@ -561,7 +531,7 @@
                             <li><a href="about.html">About Us</a></li>
                             <li><a href="products.html">Products</a></li>
                             <li><a href="services.html">Services</a></li>
-                            <li><a href="contact.html">Blog</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
                             <li><a href="contact.html">FAQs</a></li>
                         </ul>
                     </div>
@@ -582,7 +552,7 @@
                             <li><i class="fas fa-phone"></i> <a href="tel:+919999999999">+91 9999 999 999</a></li>
                             <li><i class="fas fa-envelope"></i> <a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></li>
                             <li><i class="fas fa-map-marker-alt"></i> <span>New Delhi, India</span></li>
-                            <li style="margin-top: 1rem;"><a href="contact.html" class="btn btn-primary btn-small">Get Quote</a></li>
+                            <li style="margin-top: 1rem;"><a href="contact.html" class="btn btn-green" style="padding:0.6rem 1.5rem;">Get Quote</a></li>
                         </ul>
                     </div>
                 </div>
@@ -592,8 +562,10 @@
                         <span class="cert-badges">FSSAI ✓ APEDA ✓ ISO 9001:2015 ✓ HACCP ✓</span>
                     </div>
                 </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Refund Policy</a></p>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
                 </div>
             </div>
         </footer>

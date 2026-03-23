@@ -3,158 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact - Ashnex Agrotrade | Get in Touch for Premium Agricultural Products">
-    <meta name="keywords" content="contact, ashnex, inquiry, quote, bulk order">
-    <title>Contact Us - Ashnex Agrotrade | Premium Indian Agri Products</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23D4AF37'>🌾</text></svg>">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for icons -->
+    <meta name="description" content="Contact Ashnex Agrotrade for inquiries about agricultural products, bulk orders, and export services.">
+    <title>Contact Us | Ashnex Agrotrade</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%232E7D32'>🌾</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="app">
-        <!-- Floating WhatsApp Button -->
-        <a href="https://wa.me/919999999999?text=Hi%20Ashnex%20Agrotrade%2C%20I%20interested%20in%20bulk%20orders" 
-           target="_blank" 
-           class="floating-whatsapp" 
-           title="Chat with us on WhatsApp">
+        <!-- Floating WhatsApp -->
+        <a href="https://wa.me/919999999999?text=Hi%20Ashnex%20Agrotrade%2C%20I'm%20interested%20in%20your%20products" target="_blank" class="floating-whatsapp" title="Chat on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
+        <button class="scroll-top" @click="scrollToTop" :class="{ visible: scrollPosition > 300 }">
+            <i class="fas fa-chevron-up"></i>
+        </button>
 
-        <!-- Navigation Bar -->
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-content">
+                    <div class="top-bar-item"><i class="fas fa-map-marker-alt"></i><span>New Delhi, India</span></div>
+                    <div class="top-bar-item"><i class="fas fa-phone-alt"></i><a href="tel:+919999999999">+91 9999 999 999</a></div>
+                    <div class="top-bar-item"><i class="fas fa-clock"></i><span>Mon - Sat: 10:00 AM - 7:00 PM</span></div>
+                    <div class="top-bar-item"><i class="fas fa-envelope"></i><a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navbar -->
         <nav class="navbar">
             <div class="navbar-container">
                 <div class="navbar-logo">
-                    <a href="index.html">
-                        <span class="logo-icon">🌾</span>
-                        <span class="logo-text">Ashnex</span>
-                    </a>
+                    <a href="index.html"><span class="logo-icon">🌾</span><span class="logo-text">Ashnex Agrotrade</span></a>
                 </div>
-                
-                <!-- Hamburger Menu -->
                 <div class="hamburger" @click="menuOpen = !menuOpen" :class="{ active: menuOpen }">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </div>
-                
-                <!-- Navigation Links -->
                 <ul class="nav-menu" :class="{ active: menuOpen }">
                     <li><a href="index.html" @click="menuOpen = false">Home</a></li>
-                    <li><a href="about.html" @click="menuOpen = false">About</a></li>
-                    <li><a href="products.html" @click="menuOpen = false">Products</a></li>
+                    <li><a href="about.html" @click="menuOpen = false">About Us</a></li>
+                    <li><a href="products.html" @click="menuOpen = false">Our Products</a></li>
                     <li><a href="services.html" @click="menuOpen = false">Services</a></li>
-                    <li><a href="contact.html" @click="menuOpen = false" class="active">Contact</a></li>
-                    <li><a class="cta-btn" href="contact.html" @click="menuOpen = false">Get Started</a></li>
+                    <li><a href="contact.html" @click="menuOpen = false" class="active">Contact Us</a></li>
+                    <li><a class="cta-btn" href="contact.html" @click="menuOpen = false">Get A Quote</a></li>
                 </ul>
             </div>
         </nav>
 
-        <!-- Contact Section -->
-        <section id="contact" class="contact">
+        <!-- Page Banner -->
+        <section class="page-banner">
             <div class="container">
-                <h2 class="section-title">Get in Touch</h2>
+                <h1>Contact Us</h1>
+                <p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; Contact Us</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" style="padding-top:4rem;">
+            <div class="container">
                 <div class="contact-grid">
                     <div class="contact-info">
-                        <p>Ready to place a bulk order or have questions? Contact us today and let's start a successful partnership.</p>
-                        
+                        <h2 class="section-title">Get In Touch</h2>
+                        <p>We'd love to hear from you! Whether you have a question, need a quote, or want to discuss a large order — reach out and our team will respond within 24 hours.</p>
+
                         <div class="contact-details">
                             <div class="detail-item">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <div>
-                                    <h4>Location</h4>
-                                    <p>India</p>
+                                    <h4>Office Address</h4>
+                                    <p>New Delhi, India</p>
                                 </div>
                             </div>
                             <div class="detail-item">
                                 <i class="fas fa-phone-alt"></i>
                                 <div>
-                                    <h4>Phone</h4>
+                                    <h4>Phone Number</h4>
                                     <p><a href="tel:+919999999999">+91 9999 999 999</a></p>
                                 </div>
                             </div>
                             <div class="detail-item">
                                 <i class="fas fa-envelope"></i>
                                 <div>
-                                    <h4>Email</h4>
+                                    <h4>Email Address</h4>
                                     <p><a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h4>Business Hours</h4>
+                                    <p>Mon - Sat: 10:00 AM - 7:00 PM</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="whatsapp-button">
-                            <a href="https://wa.me/919999999999?text=Hi%20Ashnex%20Agrotrade%2C%20I%20interested%20in%20bulk%20orders" target="_blank" class="btn btn-whatsapp">
-                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-                            </a>
-                        </div>
+                        <a href="https://wa.me/919999999999?text=Hi%20Ashnex%20Agrotrade%2C%20I'm%20interested%20in%20your%20products" target="_blank" class="btn btn-whatsapp btn-large">
+                            <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                        </a>
                     </div>
 
-                    <form class="contact-form" @submit.prevent="submitForm">
-                        <h3>Send us a Message</h3>
-                        
-                        <div class="form-group">
-                            <input 
-                                v-model="form.name" 
-                                type="text" 
-                                placeholder="Your Name" 
-                                required
-                            >
-                        </div>
-
-                        <div class="form-group">
-                            <input 
-                                v-model="form.email" 
-                                type="email" 
-                                placeholder="Your Email" 
-                                required
-                            >
-                        </div>
-
-                        <div class="form-group">
-                            <select v-model="form.product" required>
-                                <option value="">Select a Product</option>
-                                <option value="cashew">Cashew</option>
-                                <option value="ginger">Ginger</option>
-                                <option value="turmeric">Turmeric</option>
-                                <option value="other">Other Products</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <input 
-                                v-model="form.quantity" 
-                                type="number" 
-                                placeholder="Quantity (in kg/tons)" 
-                                min="1"
-                                required
-                            >
-                        </div>
-
-                        <div class="form-group">
-                            <textarea 
-                                v-model="form.message" 
-                                placeholder="Your Message" 
-                                rows="5" 
-                                required
-                            ></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-                            {{ isSubmitting ? 'Sending...' : 'Send Message' }}
-                        </button>
-
-                        <p v-if="submitMessage" :class="['form-message', submitMessageType]">
-                            {{ submitMessage }}
-                        </p>
-                    </form>
+                    <div class="contact-form">
+                        <h3>Send Us a Message</h3>
+                        <form @submit.prevent="submitForm">
+                            <div class="form-group">
+                                <input type="text" v-model="contactForm.name" placeholder="Your Name *" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" v-model="contactForm.email" placeholder="Your Email *" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" v-model="contactForm.phone" placeholder="Phone Number">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" v-model="contactForm.company" placeholder="Company Name">
+                            </div>
+                            <div class="form-group">
+                                <select v-model="contactForm.subject">
+                                    <option value="">Select Subject *</option>
+                                    <option value="product-inquiry">Product Inquiry</option>
+                                    <option value="bulk-order">Bulk Order</option>
+                                    <option value="export-inquiry">Export Inquiry</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea v-model="contactForm.message" placeholder="Your Message *" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-large" style="width:100%;justify-content:center;">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                            <div v-if="formMessage" class="form-message" :class="formMessage.type">
+                                {{ formMessage.text }}
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -162,8 +147,8 @@
         <!-- FAQ Section -->
         <section class="faqs">
             <div class="container">
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-subtitle">Quick answers to common questions about our products and services</p>
+                <h2 class="section-title centered">Frequently Asked Questions</h2>
+                <p class="section-subtitle centered">Quick answers to common questions</p>
                 <div class="faq-grid">
                     <div v-for="(faq, index) in faqs" :key="faq.id" class="faq-item" :class="{ active: faq.open }">
                         <div class="faq-question" @click="toggleFAQ(index)">
@@ -178,46 +163,18 @@
             </div>
         </section>
 
-        <!-- Newsletter Section -->
-        <section class="newsletter">
-            <div class="container">
-                <div class="newsletter-content">
-                    <h3>Stay Updated with Latest Offers</h3>
-                    <p>Get exclusive deals and market updates delivered to your inbox</p>
-                    <form class="newsletter-form" @submit.prevent="subscribeNewsletter">
-                        <input 
-                            v-model="newsletterEmail" 
-                            type="email" 
-                            placeholder="Enter your email" 
-                            required
-                        >
-                        <button type="submit" class="btn btn-primary glow-effect">
-                            Subscribe Now
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-section">
                         <h4>Ashnex Agrotrade</h4>
-                        <p>Premium Indian agricultural products for domestic and global markets, trusted by 1000+ customers worldwide.</p>
-                        <p class="footer-experience"><strong>Since 2020</strong> | Direct Farm Exports</p>
-                        <p class="footer-service-hours">
-                            <strong>Service Hours:</strong><br>
-                            Mon - Sat: 10:00 AM - 7:00 PM<br>
-                            Sunday: By Appointment
-                        </p>
-                        <div class="social-links footer-social">
-                            <a href="https://www.facebook.com/ashnexagrotrade" title="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://www.instagram.com/ashnexagrotrade" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.linkedin.com/company/ashnex-agrotrade" title="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="https://www.youtube.com/@ashnexagrotrade" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
-                            <a href="https://wa.me/919999999999" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <p>Premium Indian agricultural products for domestic and global markets.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
                         </div>
                     </div>
                     <div class="footer-section">
@@ -227,8 +184,7 @@
                             <li><a href="about.html">About Us</a></li>
                             <li><a href="products.html">Products</a></li>
                             <li><a href="services.html">Services</a></li>
-                            <li><a href="contact.html">Blog</a></li>
-                            <li><a href="contact.html">FAQs</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -239,7 +195,6 @@
                             <li><a href="products.html">Pure Turmeric</a></li>
                             <li><a href="products.html">Dried Chili</a></li>
                             <li><a href="products.html">Spices & Seeds</a></li>
-                            <li><a href="products.html">More Products</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -248,7 +203,6 @@
                             <li><i class="fas fa-phone"></i> <a href="tel:+919999999999">+91 9999 999 999</a></li>
                             <li><i class="fas fa-envelope"></i> <a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></li>
                             <li><i class="fas fa-map-marker-alt"></i> <span>New Delhi, India</span></li>
-                            <li style="margin-top: 1rem;"><a href="contact.html" class="btn btn-primary btn-small">Get Quote</a></li>
                         </ul>
                     </div>
                 </div>
@@ -258,17 +212,14 @@
                         <span class="cert-badges">FSSAI ✓ APEDA ✓ ISO 9001:2015 ✓ HACCP ✓</span>
                     </div>
                 </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Refund Policy</a></p>
-                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container"><p>&copy; 2024 Ashnex Agrotrade. All rights reserved.</p></div>
             </div>
         </footer>
     </div>
 
-    <!-- Vue.js 3 -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    
-    <!-- Custom JS -->
     <script src="js/app.js"></script>
 </body>
 </html>
