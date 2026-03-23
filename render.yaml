@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: ashnex-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && gunicorn app:app --bind 0.0.0.0:$PORT
+    plan: free
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: MONGO_DB_URI
+        fromDatabase:
+          name: ashnex-db
+          property: connectionString
+      - key: MONGO_DB_NAME
+        value: ashnex_agrotrade
+      - key: ADMIN_API_KEY
+        value: admin_key_change_in_production
+      - key: FRONTEND_URL
+        value: https://ashnex.vercel.app
+
+  - type: web
+    name: ashnex-frontend
+    staticSite:
+      rootDir: frontend
+    plan: free
+    buildCommand: echo "Static site ready"
+    preDeployCommand: echo "Frontend deployment"
