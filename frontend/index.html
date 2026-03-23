@@ -50,7 +50,31 @@
 
         <!-- Hero Section -->
         <section id="home" class="hero">
-            <div class="hero-background-overlay"></div>
+            <!-- Rich Background Elements -->
+            <div class="hero-background">
+                <div class="bg-pattern-top"></div>
+                <div class="bg-pattern-bottom"></div>
+                <div class="floating-leaf leaf-1">🍃</div>
+                <div class="floating-leaf leaf-2">🌱</div>
+                <div class="floating-leaf leaf-3">🍂</div>
+                <div class="floating-leaf leaf-4">🌿</div>
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+                <svg class="bg-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.05" />
+                            <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0.05" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,300 Q300,200 600,300 T1200,300 L1200,600 L0,600 Z" fill="url(#grad1)" />
+                    <circle cx="100" cy="100" r="80" fill="none" stroke="#059669" stroke-width="1" opacity="0.1" />
+                    <circle cx="1100" cy="500" r="120" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.1" />
+                </svg>
+            </div>
+            
+            <div class="hero-overlay"></div>
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
@@ -78,9 +102,9 @@
                     </div>
                     <div class="hero-image">
                         <div class="product-showcase">
-                            <div class="showcase-item">🌾</div>
-                            <div class="showcase-item">🥜</div>
-                            <div class="showcase-item">📦</div>
+                            <div class="showcase-item item-1">🌾</div>
+                            <div class="showcase-item item-2">🥜</div>
+                            <div class="showcase-item item-3">📦</div>
                         </div>
                     </div>
                 </div>

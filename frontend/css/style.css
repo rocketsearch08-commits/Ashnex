@@ -263,20 +263,184 @@ section {
     overflow: hidden;
 }
 
-.hero-background-overlay {
+/* Rich Hero Background */
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.bg-pattern-top,
+.bg-pattern-bottom {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background-size: 100px 100px;
+    opacity: 0.15;
+    z-index: 1;
+}
+
+.bg-pattern-top {
+    top: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, var(--secondary) 1px, transparent 1px),
+        radial-gradient(circle at 60% 70%, var(--accent) 1px, transparent 1px),
+        radial-gradient(circle at 80% 10%, var(--secondary) 1px, transparent 1px);
+    animation: drift 20s linear infinite;
+}
+
+.bg-pattern-bottom {
+    bottom: 0;
+    background-image: 
+        linear-gradient(45deg, var(--secondary) 1px, transparent 1px),
+        linear-gradient(-45deg, var(--accent) 1px, transparent 1px);
+    animation: drift-reverse 25s linear infinite;
+}
+
+@keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(100px); }
+}
+
+@keyframes drift-reverse {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100px); }
+}
+
+/* Floating Leaf Elements */
+.floating-leaf {
+    position: absolute;
+    font-size: 3rem;
+    opacity: 0.6;
+    z-index: 2;
+    animation: float-leaf 6s ease-in-out infinite;
+}
+
+.leaf-1 {
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+    animation: float-leaf-1 8s ease-in-out infinite;
+}
+
+.leaf-2 {
+    top: 20%;
+    right: 10%;
+    font-size: 2.5rem;
+    animation-delay: 1s;
+    animation: float-leaf-2 10s ease-in-out infinite;
+}
+
+.leaf-3 {
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 2s;
+    animation: float-leaf-3 9s ease-in-out infinite;
+}
+
+.leaf-4 {
+    bottom: 10%;
+    right: 5%;
+    font-size: 2rem;
+    animation-delay: 3s;
+    animation: float-leaf-4 11s ease-in-out infinite;
+}
+
+@keyframes float-leaf-1 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-40px) rotate(20deg); }
+}
+
+@keyframes float-leaf-2 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-50px) rotate(-25deg); }
+}
+
+@keyframes float-leaf-3 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(30px) rotate(15deg); }
+}
+
+@keyframes float-leaf-4 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-35px) rotate(-20deg); }
+}
+
+/* Floating Geometric Shapes */
+.floating-shape {
+    position: absolute;
+    z-index: 1;
+    opacity: 0.1;
+    animation: float-shape 15s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, var(--secondary), transparent);
+    border-radius: 50%;
+    top: 15%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 100px;
+    background: linear-gradient(45deg, var(--accent), var(--secondary));
+    top: 60%;
+    right: 5%;
+    border-radius: 40% 60% 70% 30%;
+    animation-delay: 3s;
+}
+
+.shape-3 {
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--secondary);
+    top: 50%;
+    left: 5%;
+    transform: rotate(45deg);
+    animation-delay: 6s;
+}
+
+@keyframes float-shape {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-50px) translateX(30px); }
+    50% { transform: translateY(-100px) translateX(-20px); }
+    75% { transform: translateY(-50px) translateX(40px); }
+}
+
+/* SVG Background */
+.bg-svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Hero Overlay */
+.hero-overlay {
     position: absolute;
     top: 0;
     right: 0;
     width: 60%;
     height: 100%;
-    background: radial-gradient(circle at top right, rgba(5, 150, 105, 0.1), transparent);
+    background: radial-gradient(circle at top right, rgba(5, 150, 105, 0.08), transparent);
     pointer-events: none;
+    z-index: 2;
 }
 
 .hero .container {
     width: 100%;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 .hero-badge-top {
@@ -355,6 +519,35 @@ section {
     }
 }
 
+.product-showcase {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 400px;
+}
+
+.showcase-item {
+    width: 120px;
+    height: 120px;
+    background: var(--white);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: float 3s ease-in-out infinite;
+}
+
+.item-1 { animation-delay: 0s; }
+.item-2 { animation-delay: 0.3s; }
+.item-3 { animation-delay: 0.6s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
 /* Scroll Indicator */
 .scroll-indicator {
     position: absolute;
@@ -396,31 +589,6 @@ section {
     border: 1px solid var(--border);
     font-weight: 600;
     color: var(--secondary);
-}
-
-.product-showcase {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 400px;
-}
-
-.showcase-item {
-    width: 120px;
-    height: 120px;
-    background: var(--white);
-    border-radius: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
 }
 
 /* SECTIONS */
@@ -1062,6 +1230,20 @@ section {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
     }
+
+    .floating-leaf {
+        opacity: 0.3;
+        font-size: 2rem !important;
+    }
+
+    .floating-shape {
+        opacity: 0.05 !important;
+    }
+
+    .bg-pattern-top,
+    .bg-pattern-bottom {
+        opacity: 0.08;
+    }
     
     .hero-image {
         order: -1;
@@ -1134,6 +1316,23 @@ section {
         width: 100%;
         font-size: 0.9rem;
         padding: 0.75rem 1rem;
+    }
+
+    .floating-leaf {
+        display: none;
+    }
+
+    .floating-shape {
+        display: none;
+    }
+
+    .bg-pattern-top,
+    .bg-pattern-bottom {
+        display: none;
+    }
+
+    .bg-svg {
+        display: none;
     }
     
     .products-grid,
