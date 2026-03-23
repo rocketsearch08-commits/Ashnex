@@ -116,6 +116,46 @@ const app = createApp({
             // Featured Products (first 3)
             featuredProducts: [],
 
+            // FAQ Data
+            faqs: [
+                {
+                    id: 1,
+                    question: 'What are your minimum order quantities?',
+                    answer: 'Minimum order quantities vary by product, typically ranging from 250kg to 1 ton. We also offer flexible arrangements for larger bulk orders. Please contact our sales team for specific product requirements.',
+                    open: false
+                },
+                {
+                    id: 2,
+                    question: 'Which countries do you export to?',
+                    answer: 'We export to 50+ countries across 6 continents including UK, UAE, Europe, Asia Pacific, North America, and Australia. We handle all customs clearance, documentation, and logistics arrangements.',
+                    open: false
+                },
+                {
+                    id: 3,
+                    question: 'What certifications do you have?',
+                    answer: 'We are FSSAI certified, APEDA registered, ISO 9001:2015 compliant, and have HACCP certification. All products meet international food safety standards and are regularly audited by third-party laboratories.',
+                    open: false
+                },
+                {
+                    id: 4,
+                    question: 'What is your typical delivery timeline?',
+                    answer: 'Average delivery time is 7-10 days with 99.9% on-time delivery guarantee. We provide real-time shipment tracking and handle all logistics through trusted international carriers.',
+                    open: false
+                },
+                {
+                    id: 5,
+                    question: 'Do you offer customized packaging?',
+                    answer: 'Yes! We offer custom packaging solutions to meet your specific requirements including branded packaging, bulk containers, and food-grade materials. Our packaging team works closely with you to ensure your needs are met.',
+                    open: false
+                },
+                {
+                    id: 6,
+                    question: 'How do I request a quote?',
+                    answer: 'You can request a quote using our contact form, sending an email to info@ashnexagrotrade.com, or calling us at +91 9999 999 999. Our sales team will respond within 24 hours with a detailed quotation.',
+                    open: false
+                }
+            ],
+
             // Contact Form
             form: {
                 name: '',
@@ -301,6 +341,13 @@ const app = createApp({
             } finally {
                 this.isSubmitting = false;
             }
+        },
+
+        /**
+         * Toggle FAQ item open/closed
+         */
+        toggleFAQ(index) {
+            this.faqs[index].open = !this.faqs[index].open;
         }
     },
 

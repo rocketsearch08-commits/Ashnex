@@ -173,16 +173,44 @@
             </div>
         </section>
 
-        <!-- Trust Section -->
+        <!-- Trust Section - Three Pillars -->
         <section class="trust">
             <div class="container">
                 <h2 class="section-title">Why Choose Ashnex?</h2>
-                <div class="trust-grid">
+                <p class="section-subtitle">Our commitment to excellence in every transaction</p>
+                <div class="trust-grid three-pillars">
                     <div class="trust-item">
-                        <div class="trust-icon">✓</div>
-                        <h4>ISO Certified</h4>
-                        <p>All products meet international quality standards and certifications</p>
+                        <div class="trust-icon">💎</div>
+                        <h4>Unmatched Quality</h4>
+                        <p>We source the finest agricultural products from premium farms across India. Every item undergoes rigorous testing to ensure it meets the highest international standards. Your success is built on our quality.</p>
+                        <ul class="feature-list">
+                            <li>✓ ISO 9001:2015 Certified</li>
+                            <li>✓ FSSAI & APEDA Approved</li>
+                            <li>✓ Third-party laboratory tested</li>
+                        </ul>
                     </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">💰</div>
+                        <h4>Competitive Pricing</h4>
+                        <p>We understand the importance of value for your business. Our streamlined supply chain and direct sourcing from farmers allow us to offer the most competitive pricing without compromising on quality.</p>
+                        <ul class="feature-list">
+                            <li>✓ Direct farm sourcing</li>
+                            <li>✓ No middlemen overhead</li>
+                            <li>✓ Flexible bulk discounts</li>
+                        </ul>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">🤝</div>
+                        <h4>Exceptional Service</h4>
+                        <p>Our dedicated team is committed to exceeding your expectations. From order placement to delivery, we provide seamless communication, reliable logistics, and 24/7 customer support throughout your journey with us.</p>
+                        <ul class="feature-list">
+                            <li>✓ 24/7 customer support</li>
+                            <li>✓ Real-time tracking</li>
+                            <li>✓ Fast shipping guarantee</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="trust-additional">
                     <div class="trust-item">
                         <div class="trust-icon">✓</div>
                         <h4>Export Ready</h4>
@@ -197,6 +225,11 @@
                         <div class="trust-icon">✓</div>
                         <h4>Premium Grade</h4>
                         <p>Only finest agricultural commodities selected for supply</p>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <h4>Verified Seller</h4>
+                        <p>Trusted by 1000+ businesses across 50+ countries worldwide</p>
                     </div>
                 </div>
             </div>
@@ -602,6 +635,25 @@
             </div>
         </section>
 
+        <!-- FAQ Section -->
+        <section class="faqs">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Quick answers to common questions about our products and services</p>
+                <div class="faq-grid">
+                    <div v-for="(faq, index) in faqs" :key="faq.id" class="faq-item" :class="{ active: faq.open }">
+                        <div class="faq-question" @click="toggleFAQ(index)">
+                            <h4>{{ faq.question }}</h4>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer" v-if="faq.open">
+                            <p>{{ faq.answer }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section -->
         <section id="contact" class="contact">
             <div class="container">
@@ -710,11 +762,18 @@
                     <div class="footer-section">
                         <h4>Ashnex Agrotrade</h4>
                         <p>Premium Indian agricultural products for domestic and global markets, trusted by 1000+ customers worldwide.</p>
-                        <div class="social-links">
-                            <a href="#" title="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
-                            <a href="#" title="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
-                            <a href="#" title="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <p class="footer-experience"><strong>Since 2020</strong> | Direct Farm Exports</p>
+                        <p class="footer-service-hours">
+                            <strong>Service Hours:</strong><br>
+                            Mon - Sat: 10:00 AM - 7:00 PM<br>
+                            Sunday: By Appointment
+                        </p>
+                        <div class="social-links footer-social">
+                            <a href="https://www.facebook.com/ashnexagrotrade" title="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/ashnexagrotrade" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/ashnex-agrotrade" title="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.youtube.com/@ashnexagrotrade" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a href="https://wa.me/919999999999" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
                     <div class="footer-section">
@@ -724,29 +783,39 @@
                             <li><a href="#about" @click="scrollTo('about')">About Us</a></li>
                             <li><a href="#products" @click="scrollTo('products')">Products</a></li>
                             <li><a href="#services" @click="scrollTo('services')">Services</a></li>
-                            <li><a href="#contact" @click="scrollTo('contact')">Contact</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">FAQs</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
-                        <h4>Products</h4>
+                        <h4>Our Products</h4>
                         <ul>
-                            <li><a href="#products">Cashew</a></li>
-                            <li><a href="#products">Ginger</a></li>
-                            <li><a href="#products">Turmeric</a></li>
-                            <li><a href="#products">Other Products</a></li>
+                            <li><a href="#products">Premium Cashew</a></li>
+                            <li><a href="#products">Organic Ginger</a></li>
+                            <li><a href="#products">Pure Turmeric</a></li>
+                            <li><a href="#products">Dried Chili</a></li>
+                            <li><a href="#products">Spices & Seeds</a></li>
+                            <li><a href="#products">More Products</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
-                        <h4>Contact Info</h4>
-                        <ul>
-                            <li><a href="tel:+91 9175606681">+91 9175 606 681</a></li>
-                            <li><a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></li>
-                            <li>India</li>
+                        <h4>Contact Us</h4>
+                        <ul class="contact-footer">
+                            <li><i class="fas fa-phone"></i> <a href="tel:+919999999999">+91 9999 999 999</a></li>
+                            <li><i class="fas fa-envelope"></i> <a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></li>
+                            <li><i class="fas fa-map-marker-alt"></i> <span>New Delhi, India</span></li>
+                            <li style="margin-top: 1rem;"><a href="#contact" @click="scrollTo('contact')" class="btn btn-primary btn-small">Get Quote</a></li>
                         </ul>
                     </div>
                 </div>
+                <div class="footer-middle">
+                    <div class="footer-certifications">
+                        <span class="cert-label">Certified & Verified:</span>
+                        <span class="cert-badges">FSSAI ✓ APEDA ✓ ISO 9001:2015 ✓ HACCP ✓</span>
+                    </div>
+                </div>
                 <div class="footer-bottom">
-                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Refund Policy</a></p>
                 </div>
             </div>
         </footer>
