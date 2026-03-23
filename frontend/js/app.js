@@ -109,6 +109,9 @@ const app = createApp({
                 message: ''
             },
 
+            // Newsletter
+            newsletterEmail: '',
+
             // Form submission state
             isSubmitting: false,
             submitMessage: '',
@@ -233,6 +236,54 @@ const app = createApp({
             const navbar = document.querySelector('.nav-container');
             if (navbar && !navbar.contains(event.target) && this.menuOpen) {
                 this.menuOpen = false;
+            }
+        },
+
+        /**
+         * Subscribe to newsletter
+         */
+        async subscribeNewsletter() {
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(this.newsletterEmail)) {
+                this.submitMessage = 'Please enter a valid email address';
+                this.submitMessageType = 'error';
+                return;
+            }
+
+            this.isSubmitting = true;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/newsletter`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: this.newsletterEmail
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    this.submitMessage = '✅ Subscribed successfully! Check your email for exclusive offers.';
+                    this.submitMessageType = 'success';
+                    this.newsletterEmail = '';
+
+                    setTimeout(() => {
+                        this.submitMessage = '';
+                    }, 5000);
+                } else {
+                    this.submitMessage = data.message || 'Subscription failed. Please try again.';
+                    this.submitMessageType = 'error';
+                }
+            } catch (error) {
+                console.error('Newsletter subscription error:', error);
+                this.submitMessage = 'Error subscribing. Please try again later.';
+                this.submitMessageType = 'error';
+            } finally {
+                this.isSubmitting = false;
             }
         }
     },

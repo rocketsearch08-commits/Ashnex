@@ -305,16 +305,100 @@
             </div>
         </section>
 
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Trusted and loved by businesses worldwide</p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">AK</div>
+                            <div class="testimonial-info">
+                                <h4>Akshay Kumar</h4>
+                                <p class="testimonial-role">Export Manager, TechSpice Ltd</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <p class="testimonial-text">"Ashnex provides premium quality products with exceptional service. Their attention to detail and timely delivery has made them our preferred supplier."</p>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">SA</div>
+                            <div class="testimonial-info">
+                                <h4>Sarah Anderson</h4>
+                                <p class="testimonial-role">Procurement Director, Global Imports</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <p class="testimonial-text">"Outstanding quality and professional support. Ashnex has consistently delivered on their promises. Highly recommended!"</p>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">RJ</div>
+                            <div class="testimonial-info">
+                                <h4>Rajesh Joshi</h4>
+                                <p class="testimonial-role">Owner, Spice Traders India</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <p class="testimonial-text">"Best agricultural supplier I've worked with. Their certification and quality assurance gives me complete peace of mind."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- CTA Section -->
         <section class="cta-section">
             <div class="cta-overlay"></div>
             <div class="container">
                 <div class="cta-content">
-                    <h2>Looking for Premium Bulk Supply?</h2>
+                    <h2>✨ Looking for Premium Bulk Supply?</h2>
                     <p>Join 1000+ businesses worldwide that trust Ashnex for quality agricultural commodities</p>
-                    <button class="btn btn-primary btn-large" @click="scrollTo('contact')">
+                    <button class="btn btn-primary btn-large pulse-effect" @click="scrollTo('contact')">
                         Request Your Custom Quote Today
                     </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h3>Stay Updated with Latest Offers</h3>
+                    <p>Get exclusive deals and market updates delivered to your inbox</p>
+                    <form class="newsletter-form" @submit.prevent="subscribeNewsletter">
+                        <input 
+                            v-model="newsletterEmail" 
+                            type="email" 
+                            placeholder="Enter your email" 
+                            required
+                        >
+                        <button type="submit" class="btn btn-primary glow-effect">
+                            Subscribe Now
+                        </button>
+                    </form>
                 </div>
             </div>
         </section>
