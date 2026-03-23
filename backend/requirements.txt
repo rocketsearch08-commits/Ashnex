@@ -1,0 +1,26 @@
+# ========================================
+# ASHNEX AGROTRADE - PYTHON DEPENDENCIES
+# Flask Backend Requirements
+# ========================================
+
+# Core Flask Framework
+Flask==2.3.2
+Flask-CORS==4.0.0
+
+# Database (when switching from in-memory to MongoDB)
+pymongo==4.4.0
+
+# Environment variables
+python-dotenv==1.0.0
+
+# Development & Testing
+pytest==7.4.0
+
+# Deployment (when moving to production)
+gunicorn==21.2.0
+
+# API Documentation
+flask-restx==0.5.1
+
+# Database migration tools (optional)
+# Flask-Migrate==4.0.5
