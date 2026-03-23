@@ -259,10 +259,48 @@ section {
     align-items: center;
     background: linear-gradient(135deg, var(--light), #ECFDF5);
     padding: var(--spacing-2xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-background-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(5, 150, 105, 0.1), transparent);
+    pointer-events: none;
 }
 
 .hero .container {
     width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-badge-top {
+    display: inline-block;
+    background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+    color: var(--secondary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--secondary);
+    animation: slideInDown 0.8s ease;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero-content {
@@ -274,6 +312,7 @@ section {
 
 .hero-text h1 {
     margin-bottom: var(--spacing-md);
+    animation: fadeInUp 0.8s ease 0.2s backwards;
 }
 
 .gradient-text {
@@ -287,6 +326,7 @@ section {
     font-size: 1.25rem;
     color: var(--gray);
     margin-bottom: var(--spacing-lg);
+    animation: fadeInUp 0.8s ease 0.3s backwards;
 }
 
 .hero-buttons {
@@ -294,12 +334,56 @@ section {
     gap: var(--spacing-md);
     flex-wrap: wrap;
     margin-bottom: var(--spacing-lg);
+    animation: fadeInUp 0.8s ease 0.4s backwards;
 }
 
 .hero-badges {
     display: flex;
     gap: var(--spacing-lg);
     flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease 0.5s backwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.scroll-indicator span {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border: 2px solid var(--secondary);
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    animation: bounce-down 2s infinite;
+}
+
+@keyframes bounce-down {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
 }
 
 .badge {
@@ -355,6 +439,15 @@ section {
     display: block;
     margin: var(--spacing-md) auto 0;
     border-radius: 2px;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--gray);
+    margin-top: -1.5rem;
+    margin-bottom: var(--spacing-2xl);
+    font-weight: 500;
 }
 
 /* ABOUT */
@@ -735,6 +828,141 @@ section {
     color: #991B1B;
 }
 
+/* PROCESS SECTION */
+.process {
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.process::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+    transform: translateY(-50%);
+}
+
+.process-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-item {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, #f0fdf4, var(--white));
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+    position: relative;
+}
+
+.timeline-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    background: var(--white);
+}
+
+.timeline-number {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--secondary), #047857);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.timeline-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.timeline-item h3 {
+    color: var(--primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.timeline-item p {
+    color: var(--gray);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.timeline-connector {
+    display: none;
+}
+
+/* CTA SECTION */
+.cta-section {
+    background: linear-gradient(135deg, var(--secondary), #047857);
+    color: var(--white);
+    padding: var(--spacing-2xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-overlay {
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+}
+
+.cta-section h2 {
+    color: var(--white);
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--spacing-lg);
+    animation: slideInUp 0.8s ease;
+}
+
+.cta-section p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-2xl);
+    animation: slideInUp 0.8s ease 0.1s backwards;
+}
+
+.btn-large {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    animation: slideInUp 0.8s ease 0.2s backwards;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* FOOTER */
 .footer {
     background: var(--primary);
@@ -866,6 +1094,21 @@ section {
         width: 100px;
         height: 100px;
         font-size: 3rem;
+    }
+
+    .process-timeline {
+        grid-template-columns: 1fr;
+    }
+
+    .process::before {
+        height: 100%;
+        width: 2px;
+        top: 0;
+        left: 25px;
+    }
+
+    .timeline-item {
+        margin-left: var(--spacing-lg);
     }
     
     section {
