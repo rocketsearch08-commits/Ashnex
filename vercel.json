@@ -1,0 +1,21 @@
+{
+  "buildCommand": "echo 'Static site ready'",
+  "outputDirectory": "frontend",
+  "installCommand": "echo 'No dependencies needed'",
+  "framework": "static",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "public": "frontend",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "public, max-age=3600"
+    }
+  ]
+}
