@@ -10,6 +10,8 @@
     --secondary: #059669;
     --accent: #D4AF37;
     --light: #F9FAFB;
+    --bg-primary: #F8F9FA;
+    --bg-secondary: #FAFBFC;
     --white: #FFFFFF;
     --dark: #111827;
     --gray: #6B7280;
@@ -52,7 +54,8 @@ html {
 body {
     font-family: var(--font-primary);
     color: var(--primary);
-    background: var(--white);
+    background: linear-gradient(135deg, #f8f9fa 0%, #fafbfc 50%, #f6f7f9 100%);
+    background-attachment: fixed;
     line-height: 1.6;
     overflow-x: hidden;
 }
