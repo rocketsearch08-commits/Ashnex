@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Services - Ashnex Agrotrade | Premium Agricultural Export Services">
+    <meta name="keywords" content="services, export, import, logistics, agricultural">
+    <title>Services - Ashnex Agrotrade | Premium Indian Agri Products</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23D4AF37'>🌾</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Floating WhatsApp Button -->
+        <a href="https://wa.me/919999999999?text=Hi%20Ashnex%20Agrotrade%2C%20I%20interested%20in%20bulk%20orders" 
+           target="_blank" 
+           class="floating-whatsapp" 
+           title="Chat with us on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo">
+                    <a href="index.html">
+                        <span class="logo-icon">🌾</span>
+                        <span class="logo-text">Ashnex</span>
+                    </a>
+                </div>
+                
+                <!-- Hamburger Menu -->
+                <div class="hamburger" @click="menuOpen = !menuOpen" :class="{ active: menuOpen }">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <!-- Navigation Links -->
+                <ul class="nav-menu" :class="{ active: menuOpen }">
+                    <li><a href="index.html" @click="menuOpen = false">Home</a></li>
+                    <li><a href="about.html" @click="menuOpen = false">About</a></li>
+                    <li><a href="products.html" @click="menuOpen = false">Products</a></li>
+                    <li><a href="services.html" @click="menuOpen = false" class="active">Services</a></li>
+                    <li><a href="contact.html" @click="menuOpen = false">Contact</a></li>
+                    <li><a class="cta-btn" href="contact.html" @click="menuOpen = false">Get Started</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title">Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">📤</div>
+                        <h3>Export Services</h3>
+                        <p>Complete export solutions with documentation, certification, and global logistics support for worldwide distribution.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📥</div>
+                        <h3>Import Services</h3>
+                        <p>Sourcing and importing premium agricultural products from trusted suppliers and farmers across India.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📦</div>
+                        <h3>Bulk Supply</h3>
+                        <p>Large quantity supplies with flexible pricing, custom packaging options, and dedicated account management.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🌐</div>
+                        <h3>Global Logistics</h3>
+                        <p>Efficient shipping and logistics management to 50+ countries with real-time tracking and support.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">✅</div>
+                        <h3>Quality Assurance</h3>
+                        <p>Rigorous testing, certification, and quality control ensuring highest standards throughout the supply chain.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">💼</div>
+                        <h3>Business Support</h3>
+                        <p>Dedicated support team for order management, business inquiries, and long-term partnership development.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="process">
+            <div class="container">
+                <h2 class="section-title">Our Order Process</h2>
+                <p class="section-subtitle">Fast, Transparent & Reliable Supply Chain</p>
+                <div class="process-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">01</div>
+                        <div class="timeline-icon">📋</div>
+                        <h3>Inquiry</h3>
+                        <p>Submit your bulk order requirements and specifications</p>
+                    </div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">02</div>
+                        <div class="timeline-icon">⚙️</div>
+                        <h3>Processing</h3>
+                        <p>Quality verification, documentation & shipping preparation</p>
+                    </div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">03</div>
+                        <div class="timeline-icon">🚀</div>
+                        <h3>Shipping</h3>
+                        <p>Expert logistics handling with real-time tracking</p>
+                    </div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">04</div>
+                        <div class="timeline-icon">📦</div>
+                        <h3>Delivery</h3>
+                        <p>Secure delivery at your doorstep worldwide</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications & Quality Section -->
+        <section class="certifications">
+            <div class="container">
+                <h2 class="section-title">Quality Certifications</h2>
+                <p class="section-subtitle">Internationally recognized standards & compliance</p>
+                <div class="certifications-grid">
+                    <div class="cert-card">
+                        <div class="cert-icon">📜</div>
+                        <h3>FSSAI Certified</h3>
+                        <p>Food Safety and Standards Authority of India certification for all products</p>
+                        <span class="cert-badge">India</span>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon">✈️</div>
+                        <h3>APEDA Registered</h3>
+                        <p>Agricultural and Processed Food Products Export Development Authority approval</p>
+                        <span class="cert-badge">Export License</span>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon">⭐</div>
+                        <h3>ISO 9001:2015</h3>
+                        <p>Quality management system certified for consistent product quality</p>
+                        <span class="cert-badge">Quality</span>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon">🔒</div>
+                        <h3>Food Safety Plan</h3>
+                        <p>HACCP certified and regularly audited export-ready processes</p>
+                        <span class="cert-badge">Safety</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-overlay"></div>
+            <div class="container">
+                <div class="cta-content">
+                    <h2>✨ Ready to Use Our Services?</h2>
+                    <p>Join 1000+ businesses worldwide that trust Ashnex for quality agricultural commodities</p>
+                    <a href="contact.html" class="btn btn-primary btn-large pulse-effect">Request Your Custom Quote Today</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h4>Ashnex Agrotrade</h4>
+                        <p>Premium Indian agricultural products for domestic and global markets, trusted by 1000+ customers worldwide.</p>
+                        <p class="footer-experience"><strong>Since 2020</strong> | Direct Farm Exports</p>
+                        <p class="footer-service-hours">
+                            <strong>Service Hours:</strong><br>
+                            Mon - Sat: 10:00 AM - 7:00 PM<br>
+                            Sunday: By Appointment
+                        </p>
+                        <div class="social-links footer-social">
+                            <a href="https://www.facebook.com/ashnexagrotrade" title="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/ashnexagrotrade" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/ashnex-agrotrade" title="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.youtube.com/@ashnexagrotrade" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a href="https://wa.me/919999999999" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="products.html">Products</a></li>
+                            <li><a href="services.html">Services</a></li>
+                            <li><a href="contact.html">Blog</a></li>
+                            <li><a href="contact.html">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Our Products</h4>
+                        <ul>
+                            <li><a href="products.html">Premium Cashew</a></li>
+                            <li><a href="products.html">Organic Ginger</a></li>
+                            <li><a href="products.html">Pure Turmeric</a></li>
+                            <li><a href="products.html">Dried Chili</a></li>
+                            <li><a href="products.html">Spices & Seeds</a></li>
+                            <li><a href="products.html">More Products</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Us</h4>
+                        <ul class="contact-footer">
+                            <li><i class="fas fa-phone"></i> <a href="tel:+919999999999">+91 9999 999 999</a></li>
+                            <li><i class="fas fa-envelope"></i> <a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></li>
+                            <li><i class="fas fa-map-marker-alt"></i> <span>New Delhi, India</span></li>
+                            <li style="margin-top: 1rem;"><a href="contact.html" class="btn btn-primary btn-small">Get Quote</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-middle">
+                    <div class="footer-certifications">
+                        <span class="cert-label">Certified & Verified:</span>
+                        <span class="cert-badges">FSSAI ✓ APEDA ✓ ISO 9001:2015 ✓ HACCP ✓</span>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Refund Policy</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Vue.js 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/app.js"></script>
+</body>
+</html>

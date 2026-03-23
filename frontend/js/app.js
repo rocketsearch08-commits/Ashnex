@@ -16,6 +16,8 @@ const app = createApp({
         return {
             // UI State
             menuOpen: false,
+            activeSection: 'home',
+            scrollPosition: 0,
 
             // Products
             selectedCategory: 'All',
@@ -348,6 +350,48 @@ const app = createApp({
          */
         toggleFAQ(index) {
             this.faqs[index].open = !this.faqs[index].open;
+        },
+
+        /**
+         * Handle scroll events for dynamic section tracking
+         */
+        handleScroll() {
+            this.scrollPosition = window.scrollY;
+            
+            // Scroll spy - detect active section
+            const sections = ['home', 'about', 'products', 'services', 'contact'];
+            
+            for (const sectionId of sections) {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    // Check if section is in viewport (within top 1/3 of screen)
+                    if (rect.top <= window.innerHeight / 3 && rect.bottom >= 0) {
+                        this.activeSection = sectionId;
+                        break;
+                    }
+                }
+            }
+        },
+
+        /**
+         * Update active link styling in navbar
+         */
+        updateActiveLink() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href && href.includes(this.activeSection)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    },
+
+    watch: {
+        activeSection() {
+            this.updateActiveLink();
         }
     },
 
@@ -357,15 +401,23 @@ const app = createApp({
 
         // Add click outside listener for menu
         document.addEventListener('click', this.handleClickOutside);
+        
+        // Add scroll event listener for dynamic scroll spy
+        window.addEventListener('scroll', this.handleScroll);
+        
+        // Initial scroll detection
+        this.handleScroll();
 
         console.log('✅ Ashnex Agrotrade - Frontend Initialized');
         console.log('📱 Total Products:', this.productsData.length);
         console.log('🌐 Backend API: http://localhost:5000');
+        console.log('🎯 Scroll Spy: Enabled');
     },
 
     beforeUnmount() {
-        // Cleanup event listener
+        // Cleanup event listeners
         document.removeEventListener('click', this.handleClickOutside);
+        window.removeEventListener('scroll', this.handleScroll);
     }
 });
 
