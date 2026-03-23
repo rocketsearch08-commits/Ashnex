@@ -239,6 +239,137 @@
             </div>
         </section>
 
+        <!-- Global Presence Section -->
+        <section class="global-presence">
+            <div class="container">
+                <h2 class="section-title">Our Global Reach</h2>
+                <p class="section-subtitle">Trusted partner for 50+ countries across 6 continents</p>
+                <div class="countries-grid">
+                    <div class="country-item">
+                        <div class="country-icon">🇬🇧</div>
+                        <h4>United Kingdom</h4>
+                        <p>London, UK</p>
+                    </div>
+                    <div class="country-item">
+                        <div class="country-icon">🇦🇪</div>
+                        <h4>UAE & Gulf</h4>
+                        <p>Dubai, Abu Dhabi</p>
+                    </div>
+                    <div class="country-item">
+                        <div class="country-icon">🇩🇪</div>
+                        <h4>Europe</h4>
+                        <p>Germany, France, Netherlands</p>
+                    </div>
+                    <div class="country-item">
+                        <div class="country-icon">🇸🇬</div>
+                        <h4>Asia Pacific</h4>
+                        <p>Singapore, Malaysia, Thailand</p>
+                    </div>
+                    <div class="country-item">
+                        <div class="country-icon">🇨🇦</div>
+                        <h4>North America</h4>
+                        <p>USA, Canada</p>
+                    </div>
+                    <div class="country-item">
+                        <div class="country-icon">🇦🇺</div>
+                        <h4>Australia</h4>
+                        <p>Sydney, Melbourne</p>
+                    </div>
+                </div>
+                <div class="presence-stats">
+                    <div class="stat-box">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Countries Served</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">10,000+ MT</span>
+                        <span class="stat-label">Shipped Annually</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">7-10 Days</span>
+                        <span class="stat-label">Average Delivery</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label">On-Time Delivery</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications & Quality Section -->
+        <section class="certifications">
+            <div class="container">
+                <h2 class="section-title">Quality Certifications</h2>
+                <p class="section-subtitle">Internationally recognized standards & compliance</p>
+                <div class="certifications-grid">
+                    <div class="cert-card">
+                        <div class="cert-icon">📜</div>
+                        <h3>FSSAI Certified</h3>
+                        <p>Food Safety and Standards Authority of India certification for all products</p>
+                        <span class="cert-badge">India</span>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon">✈️</div>
+                        <h3>APEDA Registered</h3>
+                        <p>Agricultural and Processed Food Products Export Development Authority approval</p>
+                        <span class="cert-badge">Export License</span>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon">⭐</div>
+                        <h3>ISO 9001:2015</h3>
+                        <p>Quality management system certified for consistent product quality</p>
+                        <span class="cert-badge">Quality</span>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon">🔒</div>
+                        <h3>Food Safety Plan</h3>
+                        <p>HACCP certified and regularly audited export-ready processes</p>
+                        <span class="cert-badge">Safety</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quality Assurance Process Section -->
+        <section class="quality-process">
+            <div class="container">
+                <h2 class="section-title">Our Quality Assurance Process</h2>
+                <p class="section-subtitle">From farm to export: rigorous quality control at every stage</p>
+                <div class="quality-steps">
+                    <div class="quality-step">
+                        <div class="step-icon">🌾</div>
+                        <h3>1. Farm Sourcing</h3>
+                        <p>Carefully selected from trusted organic farms with premium-grade crops. Direct sourcing ensures freshness and quality from the start.</p>
+                    </div>
+                    <div class="quality-arrow">→</div>
+                    <div class="quality-step">
+                        <div class="step-icon">🔬</div>
+                        <h3>2. Testing & Analysis</h3>
+                        <p>Complete lab testing for purity, pesticides, moisture, and contamination. Third-party certifications verify international standards.</p>
+                    </div>
+                    <div class="quality-arrow">→</div>
+                    <div class="quality-step">
+                        <div class="step-icon">⚙️</div>
+                        <h3>3. Processing</h3>
+                        <p>State-of-the-art processing facilities with temperature and humidity control. Food-safe environment with strict hygiene protocols.</p>
+                    </div>
+                    <div class="quality-arrow">→</div>
+                    <div class="quality-step">
+                        <div class="step-icon">📦</div>
+                        <h3>4. Packaging & Storage</h3>
+                        <p>Premium food-grade packaging materials prevent contamination. Climate-controlled storage until shipment with real-time inventory tracking.</p>
+                    </div>
+                    <div class="quality-arrow">→</div>
+                    <div class="quality-step">
+                        <div class="step-icon">📤</div>
+                        <h3>5. Export & Logistics</h3>
+                        <p>Customs-cleared shipments with complete documentation. Temperature-controlled containers for long-distance international delivery.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Products Section -->
         <section id="products" class="products">
             <div class="container">
@@ -265,9 +396,18 @@
                             <p class="product-description">{{ product.description }}</p>
                             <div class="product-specs">
                                 <span v-if="product.minOrder" class="spec">
-                                    <strong>Min Order:</strong> {{ product.minOrder }}
+                                    <i class="fas fa-cubes"></i> <strong>Min Order:</strong> {{ product.minOrder }}
+                                </span>
+                                <span v-if="product.grade" class="spec">
+                                    <i class="fas fa-star"></i> <strong>Grade:</strong> {{ product.grade }}
+                                </span>
+                                <span v-if="product.packaging" class="spec">
+                                    <i class="fas fa-box"></i> <strong>Packaging:</strong> {{ product.packaging }}
                                 </span>
                             </div>
+                            <button class="btn btn-primary btn-quote" @click="scrollTo('contact')" style="width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-quote-left"></i> Request Quote
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -309,6 +449,57 @@
                         <h3>Business Support</h3>
                         <p>Dedicated support team for order management, business inquiries, and long-term partnership development.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog & News Section -->
+        <section class="blog">
+            <div class="container">
+                <h2 class="section-title">Latest from the Blog</h2>
+                <p class="section-subtitle">Expert insights on agricultural exports & industry trends</p>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-header">
+                            <span class="blog-date">Mar 20, 2024</span>
+                            <span class="blog-category">Export Trends</span>
+                        </div>
+                        <h3>Global Demand for Indian Cashew at All-Time High</h3>
+                        <p>India accounts for 80% of global cashew exports. Learn about market trends, pricing, and opportunities for bulk buyers in 2024.</p>
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Ashnex Team</span>
+                            <span><i class="fas fa-clock"></i> 5 min read</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-header">
+                            <span class="blog-date">Mar 18, 2024</span>
+                            <span class="blog-category">Quality Tips</span>
+                        </div>
+                        <h3>How to Identify Premium Grade Spices for Export</h3>
+                        <p>Quality standards vary by market. Discover the grading system for turmeric, ginger, and other spices used by international buyers.</p>
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Ashnex Team</span>
+                            <span><i class="fas fa-clock"></i> 7 min read</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-header">
+                            <span class="blog-date">Mar 15, 2024</span>
+                            <span class="blog-category">Logistics</span>
+                        </div>
+                        <h3>Streamlining Agricultural Export Logistics</h3>
+                        <p>From documentation to customs clearance, we walk you through the complete export process and how we simplify it for our clients.</p>
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Ashnex Team</span>
+                            <span><i class="fas fa-clock"></i> 6 min read</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </article>
                 </div>
             </div>
         </section>

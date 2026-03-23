@@ -30,7 +30,9 @@ const app = createApp({
                     description: 'High-quality cashew nuts, perfectly roasted and graded for premium export',
                     bgColor: '#fff3cd',
                     emoji: '🥜',
-                    minOrder: '500 kg'
+                    minOrder: '500 kg',
+                    grade: 'W240/W180',
+                    packaging: '20kg/25kg bags'
                 },
                 {
                     id: 2,
@@ -39,7 +41,9 @@ const app = createApp({
                     description: 'Fresh, organic ginger from Indian farms, ideal for spice markets worldwide',
                     bgColor: '#fdd7e7',
                     emoji: '🌱',
-                    minOrder: '1 ton'
+                    minOrder: '1 ton',
+                    grade: 'Export Grade A',
+                    packaging: 'Bulk cartons, 100kg bags'
                 },
                 {
                     id: 3,
@@ -48,7 +52,9 @@ const app = createApp({
                     description: 'Fine turmeric powder with high curcumin content, globally certified',
                     bgColor: '#ffe5cc',
                     emoji: '✨',
-                    minOrder: '500 kg'
+                    minOrder: '500 kg',
+                    grade: 'ASTA Grade 1.8%',
+                    packaging: '25kg/50kg bags'
                 },
                 {
                     id: 4,
@@ -57,7 +63,9 @@ const app = createApp({
                     description: 'Premium dried chili peppers, perfect for spice blends and seasoning',
                     bgColor: '#ffcccc',
                     emoji: '🌶️',
-                    minOrder: '250 kg'
+                    minOrder: '250 kg',
+                    grade: 'Premium Red',
+                    packaging: '20kg boxes'
                 },
                 {
                     id: 5,
@@ -66,7 +74,9 @@ const app = createApp({
                     description: 'Aromatic coriander seeds, essential for Indian and international cuisines',
                     bgColor: '#d1f2eb',
                     emoji: '⭐',
-                    minOrder: '300 kg'
+                    minOrder: '300 kg',
+                    grade: 'Export Grade',
+                    packaging: '25kg/50kg bags'
                 },
                 {
                     id: 6,
@@ -75,7 +85,9 @@ const app = createApp({
                     description: 'Premium cashew kernels, W180 and W240 grades available',
                     bgColor: '#fff3cd',
                     emoji: '🎁',
-                    minOrder: '1 ton'
+                    minOrder: '1 ton',
+                    grade: 'W180/W240/W210',
+                    packaging: '10kg/25kg/50kg'
                 },
                 {
                     id: 7,
@@ -84,7 +96,9 @@ const app = createApp({
                     description: 'High-quality fenugreek seeds for pharmaceutical and food industries',
                     bgColor: '#e8f5e9',
                     emoji: '🌾',
-                    minOrder: '200 kg'
+                    minOrder: '200 kg',
+                    grade: 'Premium Grade',
+                    packaging: '20kg/25kg bags'
                 },
                 {
                     id: 8,
@@ -93,7 +107,9 @@ const app = createApp({
                     description: 'Coconut oil, copra, and desiccated coconut for global markets',
                     bgColor: '#f0f4c3',
                     emoji: '🥥',
-                    minOrder: '500 kg'
+                    minOrder: '500 kg',
+                    grade: 'Food Grade',
+                    packaging: '30kg/50kg buckets'
                 }
             ],
 
