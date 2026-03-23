@@ -5,6 +5,11 @@
 
 const { createApp } = Vue;
 
+// ===== API CONFIGURATION =====
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000'
+    : 'https://ashnex-backend-rr54.onrender.com';
+
 // ===== MAIN APPLICATION =====
 const app = createApp({
     data() {
