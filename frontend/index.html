@@ -23,14 +23,14 @@
     <div id="app">
         <!-- Navigation Bar -->
         <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
+            <div class="navbar-container">
+                <div class="navbar-logo">
                     <span class="logo-icon">🌾</span>
-                    <span class="logo-text">Ashnex Agrotrade</span>
+                    <span class="logo-text">Ashnex</span>
                 </div>
                 
                 <!-- Hamburger Menu -->
-                <div class="hamburger" @click="menuOpen = !menuOpen">
+                <div class="hamburger" @click="menuOpen = !menuOpen" :class="{ active: menuOpen }">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -39,40 +39,46 @@
                 <!-- Navigation Links -->
                 <ul class="nav-menu" :class="{ active: menuOpen }">
                     <li><a href="#home" @click="scrollTo('home'); menuOpen = false">Home</a></li>
-                    <li><a href="#about" @click="scrollTo('about'); menuOpen = false">About Us</a></li>
+                    <li><a href="#about" @click="scrollTo('about'); menuOpen = false">About</a></li>
                     <li><a href="#products" @click="scrollTo('products'); menuOpen = false">Products</a></li>
                     <li><a href="#services" @click="scrollTo('services'); menuOpen = false">Services</a></li>
                     <li><a href="#contact" @click="scrollTo('contact'); menuOpen = false">Contact</a></li>
+                    <li><a class="cta-btn" href="#contact" @click="scrollTo('contact'); menuOpen = false">Get Started</a></li>
                 </ul>
             </div>
         </nav>
 
         <!-- Hero Section -->
         <section id="home" class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Premium Indian Agri Products</h1>
-                <p class="hero-tagline">Domestic & Global Supply 🌍</p>
-                <p class="hero-subtitle">Trusted supplier of premium agricultural commodities including Cashew, Ginger, Turmeric, and more</p>
-                <button class="btn btn-primary" @click="scrollTo('contact')">Request Bulk Order</button>
-            </div>
-            <div class="hero-background">
-                <div class="hero-shape"></div>
-            </div>
-        </section>
-
-        <!-- Featured Products Preview -->
-        <section class="featured-products">
             <div class="container">
-                <h2 class="section-title">Our Premium Products</h2>
-                <div class="products-grid">
-                    <div v-for="product in featuredProducts" :key="product.id" class="product-card">
-                        <div class="product-image" :style="{ backgroundColor: product.bgColor }">
-                            <span class="product-emoji">{{ product.emoji }}</span>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Premium <span class="gradient-text">Indian Agricultural</span> Products</h1>
+                        <p class="hero-subtitle">Global supplier of finest quality commodities — Cashew, Ginger, Turmeric & more</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" @click="scrollTo('products')">Explore Products</button>
+                            <button class="btn btn-secondary" @click="scrollTo('contact')">Request Quote</button>
                         </div>
-                        <h3>{{ product.name }}</h3>
-                        <p>{{ product.description }}</p>
-                        <div class="product-footer">
-                            <span class="product-badge">Premium Quality</span>
+                        <div class="hero-badges">
+                            <div class="badge">
+                                <span>✓</span>
+                                <span>ISO Certified</span>
+                            </div>
+                            <div class="badge">
+                                <span>✓</span>
+                                <span>Export Ready</span>
+                            </div>
+                            <div class="badge">
+                                <span>✓</span>
+                                <span>Global Shipping</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="product-showcase">
+                            <div class="showcase-item">🌾</div>
+                            <div class="showcase-item">🥜</div>
+                            <div class="showcase-item">📦</div>
                         </div>
                     </div>
                 </div>
@@ -82,26 +88,41 @@
         <!-- About Section -->
         <section id="about" class="about">
             <div class="container">
+                <h2 class="section-title">About Ashnex Agrotrade</h2>
                 <div class="about-grid">
                     <div class="about-content">
-                        <h2 class="section-title">About Ashnex Agrotrade</h2>
-                        <p>We are a leading supplier of premium Indian agricultural products, committed to delivering quality commodities to domestic and international markets.</p>
+                        <p>We are India's leading supplier of premium agricultural commodities, committed to delivering exceptional quality products to domestic and international markets.</p>
                         
-                        <div class="about-boxes">
-                            <div class="about-box">
-                                <i class="fas fa-target"></i>
+                        <div class="about-stats">
+                            <div class="stat">
+                                <h4>50+</h4>
+                                <p>Countries Served</p>
+                            </div>
+                            <div class="stat">
+                                <h4>1000+</h4>
+                                <p>Happy Customers</p>
+                            </div>
+                            <div class="stat">
+                                <h4>100%</h4>
+                                <p>Quality Assurance</p>
+                            </div>
+                        </div>
+
+                        <div class="about-values">
+                            <div class="value-card">
+                                <div class="value-icon">🎯</div>
                                 <h3>Our Mission</h3>
-                                <p>To deliver premium quality agri products globally while maintaining the highest standards of sourcing and processing.</p>
+                                <p>Deliver premium quality agri products globally while maintaining the highest standards</p>
                             </div>
-                            <div class="about-box">
-                                <i class="fas fa-binoculars"></i>
+                            <div class="value-card">
+                                <div class="value-icon">👁️</div>
                                 <h3>Our Vision</h3>
-                                <p>To become the most trusted export partner for agricultural commodities in India and beyond.</p>
+                                <p>Become the most trusted agricultural export partner in India and beyond</p>
                             </div>
-                            <div class="about-box">
-                                <i class="fas fa-shield-alt"></i>
-                                <h3>Quality Promise</h3>
-                                <p>All products undergo rigorous quality checks and certification for export readiness.</p>
+                            <div class="value-card">
+                                <div class="value-icon">⭐</div>
+                                <h3>Our Promise</h3>
+                                <p>Every product undergoes rigorous testing and certification for export readiness</p>
                             </div>
                         </div>
                     </div>
@@ -114,30 +135,30 @@
             </div>
         </section>
 
-        <!-- Quality Assurance Section -->
-        <section class="quality-section">
+        <!-- Trust Section -->
+        <section class="trust">
             <div class="container">
-                <h2 class="section-title">Quality Assurance</h2>
-                <div class="quality-grid">
-                    <div class="quality-card">
-                        <div class="quality-icon">✓</div>
-                        <h3>ISO Certified</h3>
-                        <p>All products meet international quality standards and ISO certifications.</p>
+                <h2 class="section-title">Why Choose Ashnex?</h2>
+                <div class="trust-grid">
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <h4>ISO Certified</h4>
+                        <p>All products meet international quality standards and certifications</p>
                     </div>
-                    <div class="quality-card">
-                        <div class="quality-icon">✓</div>
-                        <h3>Export Ready</h3>
-                        <p>Complete documentation and compliance ready for global shipment.</p>
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <h4>Export Ready</h4>
+                        <p>Complete documentation and compliance for global shipment</p>
                     </div>
-                    <div class="quality-card">
-                        <div class="quality-icon">✓</div>
-                        <h3>Quality Tested</h3>
-                        <p>Every batch undergoes rigorous testing for purity and composition.</p>
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <h4>Quality Tested</h4>
+                        <p>Rigorous testing ensuring purity and composition standards</p>
                     </div>
-                    <div class="quality-card">
-                        <div class="quality-icon">✓</div>
-                        <h3>Premium Grade</h3>
-                        <p>Only the finest agricultural commodities are selected for supply.</p>
+                    <div class="trust-item">
+                        <div class="trust-icon">✓</div>
+                        <h4>Premium Grade</h4>
+                        <p>Only finest agricultural commodities selected for supply</p>
                     </div>
                 </div>
             </div>
@@ -146,7 +167,7 @@
         <!-- Products Section -->
         <section id="products" class="products">
             <div class="container">
-                <h2 class="section-title">Our Products</h2>
+                <h2 class="section-title">Our Premium Products</h2>
                 <div class="filter-buttons">
                     <button 
                         v-for="category in categories" 
@@ -162,12 +183,16 @@
                     <div v-for="product in filteredProducts" :key="product.id" class="product-card">
                         <div class="product-image" :style="{ backgroundColor: product.bgColor }">
                             <span class="product-emoji">{{ product.emoji }}</span>
+                            <span class="product-badge">Premium</span>
                         </div>
-                        <h3>{{ product.name }}</h3>
-                        <p class="category-tag">{{ product.category }}</p>
-                        <p>{{ product.description }}</p>
                         <div class="product-info">
-                            <span v-if="product.minOrder" class="min-order">Min Order: {{ product.minOrder }}</span>
+                            <h3>{{ product.name }}</h3>
+                            <p class="product-description">{{ product.description }}</p>
+                            <div class="product-specs">
+                                <span v-if="product.minOrder" class="spec">
+                                    <strong>Min Order:</strong> {{ product.minOrder }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -182,32 +207,32 @@
                     <div class="service-card">
                         <div class="service-icon">📤</div>
                         <h3>Export Services</h3>
-                        <p>Complete export solutions with documentation, certification, and global logistics support.</p>
+                        <p>Complete export solutions with documentation, certification, and global logistics support for worldwide distribution.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">📥</div>
                         <h3>Import Services</h3>
-                        <p>Sourcing and importing premium agricultural products from trusted suppliers worldwide.</p>
+                        <p>Sourcing and importing premium agricultural products from trusted suppliers and farmers across India.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">📦</div>
                         <h3>Bulk Supply</h3>
-                        <p>Large quantity supplies with flexible pricing and customized packaging options.</p>
+                        <p>Large quantity supplies with flexible pricing, custom packaging options, and dedicated account management.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">🌐</div>
                         <h3>Global Logistics</h3>
-                        <p>Efficient shipping and logistics management to 50+ countries worldwide.</p>
+                        <p>Efficient shipping and logistics management to 50+ countries with real-time tracking and support.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">✅</div>
                         <h3>Quality Assurance</h3>
-                        <p>Rigorous testing and certification ensuring highest quality standards.</p>
+                        <p>Rigorous testing, certification, and quality control ensuring highest standards throughout the supply chain.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">💼</div>
                         <h3>Business Support</h3>
-                        <p>Dedicated support team for order management and business inquiries.</p>
+                        <p>Dedicated support team for order management, business inquiries, and long-term partnership development.</p>
                     </div>
                 </div>
             </div>
@@ -216,21 +241,21 @@
         <!-- Contact Section -->
         <section id="contact" class="contact">
             <div class="container">
+                <h2 class="section-title">Get in Touch</h2>
                 <div class="contact-grid">
                     <div class="contact-info">
-                        <h2 class="section-title">Get in Touch</h2>
-                        <p>Ready to place a bulk order or have questions? Contact us today!</p>
+                        <p>Ready to place a bulk order or have questions? Contact us today and let's start a successful partnership.</p>
                         
                         <div class="contact-details">
                             <div class="detail-item">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <div>
-                                    <h4>Address</h4>
+                                    <h4>Location</h4>
                                     <p>India</p>
                                 </div>
                             </div>
                             <div class="detail-item">
-                                <i class="fas fa-phone"></i>
+                                <i class="fas fa-phone-alt"></i>
                                 <div>
                                     <h4>Phone</h4>
                                     <p><a href="tel:+919999999999">+91 9999 999 999</a></p>
@@ -320,15 +345,22 @@
                 <div class="footer-grid">
                     <div class="footer-section">
                         <h4>Ashnex Agrotrade</h4>
-                        <p>Premium Indian agricultural products for domestic and global markets.</p>
+                        <p>Premium Indian agricultural products for domestic and global markets, trusted by 1000+ customers worldwide.</p>
+                        <div class="social-links">
+                            <a href="#" title="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+                            <a href="#" title="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="#" title="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
                     <div class="footer-section">
                         <h4>Quick Links</h4>
                         <ul>
-                            <li><a href="#home">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#products">Products</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#home" @click="scrollTo('home')">Home</a></li>
+                            <li><a href="#about" @click="scrollTo('about')">About Us</a></li>
+                            <li><a href="#products" @click="scrollTo('products')">Products</a></li>
+                            <li><a href="#services" @click="scrollTo('services')">Services</a></li>
+                            <li><a href="#contact" @click="scrollTo('contact')">Contact</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -341,17 +373,16 @@
                         </ul>
                     </div>
                     <div class="footer-section">
-                        <h4>Follow Us</h4>
-                        <div class="social-links">
-                            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
-                            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        </div>
+                        <h4>Contact Info</h4>
+                        <ul>
+                            <li><a href="tel:+919999999999">+91 9999 999 999</a></li>
+                            <li><a href="mailto:info@ashnexagrotrade.com">info@ashnexagrotrade.com</a></li>
+                            <li>India</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | Privacy Policy | Terms of Service</p>
+                    <p>&copy; 2024 Ashnex Agrotrade. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
                 </div>
             </div>
         </footer>
