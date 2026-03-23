@@ -1,21 +1,14 @@
 {
-  "buildCommand": "echo 'Static site ready'",
+  "buildCommand": null,
   "outputDirectory": "frontend",
-  "installCommand": "echo 'No dependencies needed'",
-  "framework": "static",
+  "installCommand": null,
+  "framework": null,
   "cleanUrls": true,
   "trailingSlash": false,
-  "public": "frontend",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/:path((?!.*\\.[^/]*$).*)",
       "destination": "/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "key": "Cache-Control",
-      "value": "public, max-age=3600"
     }
   ]
 }
