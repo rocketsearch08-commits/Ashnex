@@ -1,6 +1,6 @@
 # ========================================
 # ASHNEX AGROTRADE - FLASK APPLICATION
-# Backend API Server
+# Backend API Server with MongoDB
 # ========================================
 
 import os
@@ -8,6 +8,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
 from dotenv import load_dotenv
+from bson import ObjectId
 import logging
 
 # Load environment variables
@@ -17,7 +18,6 @@ load_dotenv()
 app = Flask(__name__)
 
 # ===== CONFIGURATION =====
-# Enable CORS (Cross-Origin Resource Sharing) for frontend access
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Database configuration (MongoDB)
@@ -35,24 +35,42 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ===== DATABASE CONNECTION =====
-# This is a placeholder structure. For production, use PyMongo
-# from pymongo import MongoClient
-# client = MongoClient(MONGO_DB_URI)
-# db = client[MONGO_DB_NAME]
+from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 
-# For development/testing, we'll use in-memory storage
-# Replace this with actual MongoDB connection for production
-in_memory_data = {
-    'products': [],
-    'contacts': [],
-    'orders': []
-}
+db = None
+
+def get_db():
+    """Get MongoDB connection, create if not exists"""
+    global db
+    if db is not None:
+        return db
+    try:
+        client = MongoClient(MONGO_DB_URI, serverSelectionTimeoutMS=5000)
+        # Test connection
+        client.admin.command('ping')
+        db = client[MONGO_DB_NAME]
+        logger.info(f'✅ Connected to MongoDB: {MONGO_DB_NAME}')
+        return db
+    except (ConnectionFailure, ServerSelectionTimeoutError) as e:
+        logger.error(f'❌ MongoDB connection failed: {e}')
+        return None
+
+# Helper to convert ObjectId to string for JSON serialization
+def serialize_doc(doc):
+    """Convert MongoDB document to JSON-friendly dict"""
+    if doc is None:
+        return None
+    doc['_id'] = str(doc['_id'])
+    return doc
+
+def serialize_docs(docs):
+    """Convert list of MongoDB documents"""
+    return [serialize_doc(d) for d in docs]
 
 # ===== SAMPLE PRODUCTS DATA =====
-# This is loaded on startup for demonstration
 SAMPLE_PRODUCTS = [
     {
-        'id': 1,
         'name': 'Premium Cashew',
         'category': 'Cashew',
         'description': 'High-quality cashew nuts, perfectly roasted and graded for premium export',
@@ -62,7 +80,6 @@ SAMPLE_PRODUCTS = [
         'image': 'cashew.jpg'
     },
     {
-        'id': 2,
         'name': 'Organic Ginger',
         'category': 'Ginger',
         'description': 'Fresh, organic ginger from Indian farms, ideal for spice markets worldwide',
@@ -72,7 +89,6 @@ SAMPLE_PRODUCTS = [
         'image': 'ginger.jpg'
     },
     {
-        'id': 3,
         'name': 'Pure Turmeric Powder',
         'category': 'Turmeric',
         'description': 'Fine turmeric powder with high curcumin content, globally certified',
@@ -86,31 +102,21 @@ SAMPLE_PRODUCTS = [
 # ===== FLASK ERROR HANDLERS =====
 @app.errorhandler(404)
 def not_found(error):
-    """Handle 404 - Page Not Found"""
-    return jsonify({
-        'status': 'error',
-        'message': 'Endpoint not found'
-    }), 404
+    return jsonify({'status': 'error', 'message': 'Endpoint not found'}), 404
 
 @app.errorhandler(500)
 def internal_error(error):
-    """Handle 500 - Internal Server Error"""
     logger.error(f'Internal Server Error: {error}')
-    return jsonify({
-        'status': 'error',
-        'message': 'Internal server error'
-    }), 500
+    return jsonify({'status': 'error', 'message': 'Internal server error'}), 500
 
-# ===== HEALTH CHECK ENDPOINT =====
+# ===== HEALTH CHECK =====
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """
-    API Endpoint: Health Check
-    Returns server status
-    """
+    db_inst = get_db()
     return jsonify({
         'status': 'ok',
         'message': 'Ashnex Agrotrade Server is running',
+        'database': 'connected' if db_inst is not None else 'disconnected',
         'timestamp': datetime.utcnow().isoformat()
     }), 200
 
@@ -118,112 +124,53 @@ def health_check():
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
-    """
-    API Endpoint: GET /api/products
-    
-    Retrieve all products with optional filtering
-    
-    Query Parameters:
-    - category: Filter by category (optional)
-    
-    Returns:
-    - List of products
-    """
     try:
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
         category = request.args.get('category', None)
+        query = {'category': category} if category else {}
         
-        # If category provided, filter products
-        if category:
-            products = [p for p in in_memory_data['products'] if p.get('category') == category]
-        else:
-            products = in_memory_data['products']
-        
-        return jsonify({
-            'status': 'success',
-            'products': products,
-            'count': len(products)
-        }), 200
-    
+        products = serialize_docs(db_inst.products.find(query))
+        return jsonify({'status': 'success', 'products': products, 'count': len(products)}), 200
     except Exception as e:
         logger.error(f'Error fetching products: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to fetch products'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to fetch products'}), 500
 
-@app.route('/api/products/<int:product_id>', methods=['GET'])
+@app.route('/api/products/<product_id>', methods=['GET'])
 def get_product(product_id):
-    """
-    API Endpoint: GET /api/products/<id>
-    
-    Retrieve a specific product by ID
-    
-    Returns:
-    - Single product details
-    """
     try:
-        product = next((p for p in in_memory_data['products'] if p.get('id') == product_id), None)
-        
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
+        product = db_inst.products.find_one({'_id': ObjectId(product_id)})
         if not product:
-            return jsonify({
-                'status': 'error',
-                'message': 'Product not found'
-            }), 404
+            return jsonify({'status': 'error', 'message': 'Product not found'}), 404
         
-        return jsonify({
-            'status': 'success',
-            'product': product
-        }), 200
-    
+        return jsonify({'status': 'success', 'product': serialize_doc(product)}), 200
     except Exception as e:
         logger.error(f'Error fetching product: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to fetch product'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to fetch product'}), 500
 
 @app.route('/api/products', methods=['POST'])
 def add_product():
-    """
-    API Endpoint: POST /api/products
-    
-    Add a new product (ADMIN ONLY)
-    
-    Required Headers:
-    - Authorization: Bearer <ADMIN_API_KEY>
-    
-    Request Body:
-    {
-        "name": "Product Name",
-        "category": "Category",
-        "description": "Description",
-        "price": 100,
-        "unit": "kg",
-        "minOrder": "500 kg"
-    }
-    """
-    # Check authorization
     auth_header = request.headers.get('Authorization', '')
     if not auth_header.startswith('Bearer ') or auth_header.replace('Bearer ', '') != ADMIN_API_KEY:
-        return jsonify({
-            'status': 'error',
-            'message': 'Unauthorized - Invalid API Key'
-        }), 401
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     
     try:
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
         data = request.get_json()
-        
-        # Validate required fields
         required_fields = ['name', 'category', 'description', 'price', 'unit']
         if not all(field in data for field in required_fields):
-            return jsonify({
-                'status': 'error',
-                'message': f'Missing required fields: {required_fields}'
-            }), 400
+            return jsonify({'status': 'error', 'message': f'Missing required fields: {required_fields}'}), 400
         
-        # Create new product
         new_product = {
-            'id': len(in_memory_data['products']) + 1,
             'name': data.get('name'),
             'category': data.get('category'),
             'description': data.get('description'),
@@ -234,147 +181,86 @@ def add_product():
             'createdAt': datetime.utcnow().isoformat()
         }
         
-        in_memory_data['products'].append(new_product)
+        result = db_inst.products.insert_one(new_product)
+        new_product['_id'] = str(result.inserted_id)
         logger.info(f'New product added: {new_product["name"]}')
         
-        return jsonify({
-            'status': 'success',
-            'message': 'Product added successfully',
-            'product': new_product
-        }), 201
-    
+        return jsonify({'status': 'success', 'message': 'Product added', 'product': new_product}), 201
     except Exception as e:
         logger.error(f'Error adding product: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to add product'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to add product'}), 500
 
-@app.route('/api/products/<int:product_id>', methods=['PUT'])
+@app.route('/api/products/<product_id>', methods=['PUT'])
 def update_product(product_id):
-    """
-    API Endpoint: PUT /api/products/<id>
-    
-    Update an existing product (ADMIN ONLY)
-    """
-    # Check authorization
     auth_header = request.headers.get('Authorization', '')
     if not auth_header.startswith('Bearer ') or auth_header.replace('Bearer ', '') != ADMIN_API_KEY:
-        return jsonify({
-            'status': 'error',
-            'message': 'Unauthorized - Invalid API Key'
-        }), 401
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     
     try:
-        product = next((p for p in in_memory_data['products'] if p.get('id') == product_id), None)
-        
-        if not product:
-            return jsonify({
-                'status': 'error',
-                'message': 'Product not found'
-            }), 404
-        
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
         data = request.get_json()
+        update_data = {k: v for k, v in data.items() if k != '_id'}
+        update_data['updatedAt'] = datetime.utcnow().isoformat()
         
-        # Update product fields
-        product.update({
-            'name': data.get('name', product.get('name')),
-            'category': data.get('category', product.get('category')),
-            'description': data.get('description', product.get('description')),
-            'price': data.get('price', product.get('price')),
-            'unit': data.get('unit', product.get('unit')),
-            'minOrder': data.get('minOrder', product.get('minOrder')),
-            'updatedAt': datetime.utcnow().isoformat()
-        })
+        result = db_inst.products.update_one(
+            {'_id': ObjectId(product_id)},
+            {'$set': update_data}
+        )
         
-        logger.info(f'Product updated: {product["name"]}')
+        if result.matched_count == 0:
+            return jsonify({'status': 'error', 'message': 'Product not found'}), 404
         
-        return jsonify({
-            'status': 'success',
-            'message': 'Product updated successfully',
-            'product': product
-        }), 200
-    
+        updated = serialize_doc(db_inst.products.find_one({'_id': ObjectId(product_id)}))
+        logger.info(f'Product updated: {product_id}')
+        return jsonify({'status': 'success', 'message': 'Product updated', 'product': updated}), 200
     except Exception as e:
         logger.error(f'Error updating product: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to update product'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to update product'}), 500
 
-@app.route('/api/products/<int:product_id>', methods=['DELETE'])
+@app.route('/api/products/<product_id>', methods=['DELETE'])
 def delete_product(product_id):
-    """
-    API Endpoint: DELETE /api/products/<id>
-    
-    Delete a product (ADMIN ONLY)
-    """
-    # Check authorization
     auth_header = request.headers.get('Authorization', '')
     if not auth_header.startswith('Bearer ') or auth_header.replace('Bearer ', '') != ADMIN_API_KEY:
-        return jsonify({
-            'status': 'error',
-            'message': 'Unauthorized - Invalid API Key'
-        }), 401
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     
     try:
-        product = next((p for p in in_memory_data['products'] if p.get('id') == product_id), None)
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
+        result = db_inst.products.delete_one({'_id': ObjectId(product_id)})
+        if result.deleted_count == 0:
+            return jsonify({'status': 'error', 'message': 'Product not found'}), 404
         
-        if not product:
-            return jsonify({
-                'status': 'error',
-                'message': 'Product not found'
-            }), 404
-        
-        in_memory_data['products'].remove(product)
-        logger.info(f'Product deleted: {product["name"]}')
-        
-        return jsonify({
-            'status': 'success',
-            'message': 'Product deleted successfully'
-        }), 200
-    
+        logger.info(f'Product deleted: {product_id}')
+        return jsonify({'status': 'success', 'message': 'Product deleted'}), 200
     except Exception as e:
         logger.error(f'Error deleting product: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to delete product'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to delete product'}), 500
 
 # ===== CONTACT ENDPOINTS =====
 
 @app.route('/api/contact', methods=['POST'])
 def add_contact():
-    """
-    API Endpoint: POST /api/contact
-    
-    Add a new contact/inquiry
-    
-    Request Body:
-    {
-        "name": "Name",
-        "email": "email@example.com",
-        "phone": "+91 9999999999",
-        "company": "Company Name",
-        "subject": "product-inquiry",
-        "message": "Message"
-    }
-    """
+    """Public endpoint — anyone can submit a contact inquiry"""
     try:
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available. Please try again later.'}), 503
+
         data = request.get_json()
         
         # Validate required fields
         required_fields = ['name', 'email', 'message']
         missing = [f for f in required_fields if not data.get(f)]
         if missing:
-            return jsonify({
-                'status': 'error',
-                'message': f'Missing required fields: {missing}'
-            }), 400
+            return jsonify({'status': 'error', 'message': f'Missing required fields: {missing}'}), 400
         
-        # Create new contact
+        # Create contact document
         new_contact = {
-            'id': len(in_memory_data['contacts']) + 1,
             'name': data.get('name'),
             'email': data.get('email'),
             'phone': data.get('phone', ''),
@@ -385,87 +271,75 @@ def add_contact():
             'status': 'new'
         }
         
-        in_memory_data['contacts'].append(new_contact)
-        logger.info(f'New contact received from: {new_contact["name"]} ({new_contact["email"]})')
+        result = db_inst.contacts.insert_one(new_contact)
+        new_contact['_id'] = str(result.inserted_id)
+        logger.info(f'📩 New contact from: {new_contact["name"]} ({new_contact["email"]})')
         
         return jsonify({
             'status': 'success',
             'message': 'Thank you! Your message has been received. We will get back to you within 24 hours.',
-            'contact_id': new_contact['id'],
+            'contact_id': new_contact['_id'],
             'timestamp': new_contact['createdAt']
         }), 201
-    
     except Exception as e:
         logger.error(f'Error adding contact: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to save contact inquiry. Please try again.'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to save contact inquiry. Please try again.'}), 500
 
 @app.route('/api/contacts', methods=['GET'])
 def get_contacts():
-    """
-    API Endpoint: GET /api/contacts
-    
-    Retrieve all contact inquiries (ADMIN ONLY)
-    
-    Required Headers:
-    - Authorization: Bearer <ADMIN_API_KEY>
-    """
-    # Check authorization
+    """Admin only — retrieve all contact inquiries"""
     auth_header = request.headers.get('Authorization', '')
     if not auth_header.startswith('Bearer ') or auth_header.replace('Bearer ', '') != ADMIN_API_KEY:
-        return jsonify({
-            'status': 'error',
-            'message': 'Unauthorized - Invalid API Key'
-        }), 401
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     
     try:
-        return jsonify({
-            'status': 'success',
-            'contacts': in_memory_data['contacts'],
-            'count': len(in_memory_data['contacts'])
-        }), 200
-    
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
+        contacts = serialize_docs(db_inst.contacts.find().sort('createdAt', -1))
+        return jsonify({'status': 'success', 'contacts': contacts, 'count': len(contacts)}), 200
     except Exception as e:
         logger.error(f'Error fetching contacts: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to fetch contacts'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to fetch contacts'}), 500
+
+@app.route('/api/contacts/<contact_id>', methods=['DELETE'])
+def delete_contact(contact_id):
+    """Admin only — delete a contact message"""
+    auth_header = request.headers.get('Authorization', '')
+    if not auth_header.startswith('Bearer ') or auth_header.replace('Bearer ', '') != ADMIN_API_KEY:
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    try:
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
+        result = db_inst.contacts.delete_one({'_id': ObjectId(contact_id)})
+        if result.deleted_count == 0:
+            return jsonify({'status': 'error', 'message': 'Contact not found'}), 404
+        
+        logger.info(f'Contact deleted: {contact_id}')
+        return jsonify({'status': 'success', 'message': 'Contact deleted'}), 200
+    except Exception as e:
+        logger.error(f'Error deleting contact: {str(e)}')
+        return jsonify({'status': 'error', 'message': 'Failed to delete contact'}), 500
 
 # ===== BULK ORDER ENDPOINTS =====
 
 @app.route('/api/bulk-order', methods=['POST'])
 def create_bulk_order():
-    """
-    API Endpoint: POST /api/bulk-order
-    
-    Create a new bulk order from customer
-    
-    Request Body:
-    {
-        "name": "Name",
-        "email": "email@example.com",
-        "product": "Product ID",
-        "quantity": 1000,
-        "message": "Special requirements"
-    }
-    """
     try:
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
         data = request.get_json()
-        
-        # Validate required fields
         required_fields = ['name', 'email', 'product', 'quantity']
         if not all(field in data for field in required_fields):
-            return jsonify({
-                'status': 'error',
-                'message': f'Missing required fields: {required_fields}'
-            }), 400
+            return jsonify({'status': 'error', 'message': f'Missing required fields: {required_fields}'}), 400
         
-        # Create new order
         new_order = {
-            'id': len(in_memory_data['orders']) + 1,
             'name': data.get('name'),
             'email': data.get('email'),
             'product': data.get('product'),
@@ -475,108 +349,82 @@ def create_bulk_order():
             'status': 'pending'
         }
         
-        in_memory_data['orders'].append(new_order)
-        logger.info(f'New bulk order from: {new_order["name"]} - Quantity: {new_order["quantity"]}')
+        result = db_inst.orders.insert_one(new_order)
+        new_order['_id'] = str(result.inserted_id)
+        logger.info(f'📦 New bulk order from: {new_order["name"]} - Qty: {new_order["quantity"]}')
         
         return jsonify({
             'status': 'success',
-            'message': 'Bulk order received. Our team will contact you with pricing details!',
-            'order_id': new_order['id']
+            'message': 'Bulk order received. Our team will contact you with pricing!',
+            'order_id': new_order['_id']
         }), 201
-    
     except Exception as e:
         logger.error(f'Error creating bulk order: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to create bulk order'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to create bulk order'}), 500
 
 @app.route('/api/orders', methods=['GET'])
 def get_orders():
-    """
-    API Endpoint: GET /api/orders
-    
-    Retrieve all bulk orders (ADMIN ONLY)
-    
-    Required Headers:
-    - Authorization: Bearer <ADMIN_API_KEY>
-    """
-    # Check authorization
     auth_header = request.headers.get('Authorization', '')
     if not auth_header.startswith('Bearer ') or auth_header.replace('Bearer ', '') != ADMIN_API_KEY:
-        return jsonify({
-            'status': 'error',
-            'message': 'Unauthorized - Invalid API Key'
-        }), 401
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     
     try:
-        return jsonify({
-            'status': 'success',
-            'orders': in_memory_data['orders'],
-            'count': len(in_memory_data['orders'])
-        }), 200
-    
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
+        orders = serialize_docs(db_inst.orders.find().sort('createdAt', -1))
+        return jsonify({'status': 'success', 'orders': orders, 'count': len(orders)}), 200
     except Exception as e:
         logger.error(f'Error fetching orders: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to fetch orders'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to fetch orders'}), 500
 
-# ===== ADMIN ENDPOINTS =====
+# ===== ADMIN DASHBOARD =====
 
 @app.route('/api/admin/dashboard', methods=['GET'])
 def admin_dashboard():
-    """
-    API Endpoint: GET /api/admin/dashboard
-    
-    Get dashboard statistics (ADMIN ONLY)
-    
-    Required Headers:
-    - Authorization: Bearer <ADMIN_API_KEY>
-    """
-    # Check authorization
     auth_header = request.headers.get('Authorization', '')
     if not auth_header.startswith('Bearer ') or auth_header.replace('Bearer ', '') != ADMIN_API_KEY:
-        return jsonify({
-            'status': 'error',
-            'message': 'Unauthorized - Invalid API Key'
-        }), 401
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
     
     try:
+        db_inst = get_db()
+        if db_inst is None:
+            return jsonify({'status': 'error', 'message': 'Database not available'}), 503
+
         return jsonify({
             'status': 'success',
             'dashboard': {
-                'totalProducts': len(in_memory_data['products']),
-                'totalContacts': len(in_memory_data['contacts']),
-                'totalOrders': len(in_memory_data['orders']),
-                'pendingOrders': len([o for o in in_memory_data['orders'] if o.get('status') == 'pending']),
-                'newContacts': len([c for c in in_memory_data['contacts'] if c.get('status') == 'new'])
+                'totalProducts': db_inst.products.count_documents({}),
+                'totalContacts': db_inst.contacts.count_documents({}),
+                'totalOrders': db_inst.orders.count_documents({}),
+                'pendingOrders': db_inst.orders.count_documents({'status': 'pending'}),
+                'newContacts': db_inst.contacts.count_documents({'status': 'new'})
             }
         }), 200
-    
     except Exception as e:
         logger.error(f'Error fetching dashboard: {str(e)}')
-        return jsonify({
-            'status': 'error',
-            'message': 'Failed to fetch dashboard'
-        }), 500
+        return jsonify({'status': 'error', 'message': 'Failed to fetch dashboard'}), 500
 
 # ===== INITIALIZATION =====
 
 def init_data():
-    """Initialize sample data on startup"""
-    if not in_memory_data['products']:
-        in_memory_data['products'] = SAMPLE_PRODUCTS
-        logger.info(f'Sample data initialized with {len(SAMPLE_PRODUCTS)} products')
+    """Seed sample products if collection is empty"""
+    db_inst = get_db()
+    if db_inst is not None:
+        if db_inst.products.count_documents({}) == 0:
+            db_inst.products.insert_many(SAMPLE_PRODUCTS)
+            logger.info(f'🌱 Seeded {len(SAMPLE_PRODUCTS)} sample products')
+        else:
+            logger.info(f'📊 Existing products: {db_inst.products.count_documents({})}')
+    else:
+        logger.warning('⚠️ MongoDB not available — running without database')
 
 # ===== MAIN ENTRY POINT =====
 
 if __name__ == '__main__':
-    # Initialize data
     init_data()
     
-    # Get Flask configuration
     debug_mode = os.getenv('FLASK_DEBUG', False)
     host = os.getenv('FLASK_HOST', '0.0.0.0')
     port = int(os.getenv('FLASK_PORT', 5000))
@@ -584,14 +432,9 @@ if __name__ == '__main__':
     print("\n" + "="*50)
     print("🌾 ASHNEX AGROTRADE - FLASK BACKEND")
     print("="*50)
-    print(f"🚀 Server starting on {host}:{port}")
-    print(f"🔧 Debug Mode: {debug_mode}")
-    print(f"📊 Loaded Products: {len(in_memory_data['products'])}")
+    print(f"🚀 Server: {host}:{port}")
+    print(f"🗄️  MongoDB URI: {MONGO_DB_URI}")
+    print(f"📁 Database: {MONGO_DB_NAME}")
     print("="*50 + "\n")
     
-    # Start Flask development server
-    app.run(
-        host=host,
-        port=port,
-        debug=debug_mode
-    )
+    app.run(host=host, port=port, debug=debug_mode)
