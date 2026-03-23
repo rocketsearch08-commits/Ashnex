@@ -354,8 +354,9 @@ def add_contact():
     {
         "name": "Name",
         "email": "email@example.com",
-        "product": "Product Name",
-        "quantity": 500,
+        "phone": "+91 9999999999",
+        "company": "Company Name",
+        "subject": "product-inquiry",
         "message": "Message"
     }
     """
@@ -363,11 +364,12 @@ def add_contact():
         data = request.get_json()
         
         # Validate required fields
-        required_fields = ['name', 'email', 'product', 'quantity', 'message']
-        if not all(field in data for field in required_fields):
+        required_fields = ['name', 'email', 'message']
+        missing = [f for f in required_fields if not data.get(f)]
+        if missing:
             return jsonify({
                 'status': 'error',
-                'message': f'Missing required fields: {required_fields}'
+                'message': f'Missing required fields: {missing}'
             }), 400
         
         # Create new contact
@@ -375,8 +377,9 @@ def add_contact():
             'id': len(in_memory_data['contacts']) + 1,
             'name': data.get('name'),
             'email': data.get('email'),
-            'product': data.get('product'),
-            'quantity': data.get('quantity'),
+            'phone': data.get('phone', ''),
+            'company': data.get('company', ''),
+            'subject': data.get('subject', 'general'),
             'message': data.get('message'),
             'createdAt': datetime.utcnow().isoformat(),
             'status': 'new'
@@ -387,15 +390,16 @@ def add_contact():
         
         return jsonify({
             'status': 'success',
-            'message': 'Contact inquiry received. We will contact you soon!',
-            'contact_id': new_contact['id']
+            'message': 'Thank you! Your message has been received. We will get back to you within 24 hours.',
+            'contact_id': new_contact['id'],
+            'timestamp': new_contact['createdAt']
         }), 201
     
     except Exception as e:
         logger.error(f'Error adding contact: {str(e)}')
         return jsonify({
             'status': 'error',
-            'message': 'Failed to save contact inquiry'
+            'message': 'Failed to save contact inquiry. Please try again.'
         }), 500
 
 @app.route('/api/contacts', methods=['GET'])

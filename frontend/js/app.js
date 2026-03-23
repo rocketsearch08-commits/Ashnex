@@ -168,6 +168,11 @@ const app = createApp({
                 message: ''
             },
             
+            // Form state
+            isSubmitting: false,
+            formSuccess: false,
+            formErrors: {},
+            
             // Newsletter
             newsletterEmail: '',
             
@@ -230,42 +235,114 @@ const app = createApp({
             elements.forEach(el => observer.observe(el));
         },
         
-        // Contact form submission
+        // Validate a field in real-time
+        validateField(field) {
+            if (this.formErrors[field]) {
+                delete this.formErrors[field];
+                this.formErrors = { ...this.formErrors };
+            }
+        },
+        
+        // Validate email format
+        validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        },
+        
+        // Contact form submission — REAL-TIME
         async submitForm() {
-            if (!this.contactForm.name || !this.contactForm.email || !this.contactForm.message) {
+            // Reset previous state
+            this.formMessage = null;
+            this.formErrors = {};
+            
+            // Live validation
+            if (!this.contactForm.name.trim()) {
+                this.formErrors.name = 'Name is required';
+            }
+            if (!this.contactForm.email.trim()) {
+                this.formErrors.email = 'Email is required';
+            } else if (!this.validateEmail(this.contactForm.email)) {
+                this.formErrors.email = 'Please enter a valid email address';
+            }
+            if (!this.contactForm.message.trim()) {
+                this.formErrors.message = 'Message is required';
+            }
+            
+            // If validation errors exist, show them
+            if (Object.keys(this.formErrors).length > 0) {
                 this.formMessage = {
                     type: 'error',
-                    text: 'Please fill in all required fields.'
+                    text: 'Please fix the highlighted fields below.'
                 };
                 return;
             }
+            
+            // Start loading state
+            this.isSubmitting = true;
+            this.formSuccess = false;
             
             try {
                 const response = await fetch(`${API_BASE_URL}/api/contact`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(this.contactForm)
+                    body: JSON.stringify({
+                        name: this.contactForm.name.trim(),
+                        email: this.contactForm.email.trim(),
+                        phone: this.contactForm.phone.trim(),
+                        company: this.contactForm.company.trim(),
+                        subject: this.contactForm.subject,
+                        message: this.contactForm.message.trim()
+                    })
                 });
                 
-                if (response.ok) {
+                const result = await response.json();
+                
+                if (response.ok && result.status === 'success') {
+                    // Success!
+                    this.isSubmitting = false;
+                    this.formSuccess = true;
                     this.formMessage = {
                         type: 'success',
-                        text: 'Thank you! Your message has been sent successfully. We will get back to you within 24 hours.'
+                        text: `✅ ${result.message || 'Message sent successfully!'} (Ref #${result.contact_id || 'N/A'})`
                     };
+                    // Clear form
                     this.contactForm = { name: '', email: '', phone: '', company: '', subject: '', message: '' };
+                    
+                    // Reset success animation after 6 seconds
+                    setTimeout(() => {
+                        this.formSuccess = false;
+                        this.formMessage = null;
+                    }, 6000);
                 } else {
-                    throw new Error('Server error');
+                    throw new Error(result.message || 'Server returned an error');
                 }
             } catch (error) {
-                this.formMessage = {
-                    type: 'success',
-                    text: 'Thank you for your message! We will contact you shortly.'
-                };
-                this.contactForm = { name: '', email: '', phone: '', company: '', subject: '', message: '' };
-                console.log('Form submitted (offline mode):', error.message);
+                this.isSubmitting = false;
+                
+                // Check if it's a network error (backend unreachable)
+                if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+                    this.formMessage = {
+                        type: 'warning',
+                        text: '⚠️ Could not connect to the server. Your message has been saved locally and will be sent when the connection is restored.'
+                    };
+                    // Save to localStorage as fallback
+                    const pending = JSON.parse(localStorage.getItem('ashnex_pending_messages') || '[]');
+                    pending.push({
+                        ...this.contactForm,
+                        timestamp: new Date().toISOString()
+                    });
+                    localStorage.setItem('ashnex_pending_messages', JSON.stringify(pending));
+                    // Clear form even in offline mode
+                    this.contactForm = { name: '', email: '', phone: '', company: '', subject: '', message: '' };
+                } else {
+                    this.formMessage = {
+                        type: 'error',
+                        text: `❌ ${error.message || 'Something went wrong. Please try again.'}`
+                    };
+                }
+                
+                setTimeout(() => { this.formMessage = null; }, 8000);
+                console.error('Form submission error:', error);
             }
-            
-            setTimeout(() => { this.formMessage = null; }, 5000);
         },
         
         // Newsletter subscription

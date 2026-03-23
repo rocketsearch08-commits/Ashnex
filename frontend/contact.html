@@ -104,41 +104,60 @@
                         </a>
                     </div>
 
-                    <div class="contact-form">
-                        <h3>Send Us a Message</h3>
-                        <form @submit.prevent="submitForm">
-                            <div class="form-group">
-                                <input type="text" v-model="contactForm.name" placeholder="Your Name *" required>
+                    <div class="contact-form" :class="{ 'form-submitting': isSubmitting, 'form-success': formSuccess }">
+                        <!-- Success Overlay -->
+                        <div v-if="formSuccess" class="success-overlay">
+                            <div class="success-checkmark">
+                                <svg viewBox="0 0 52 52" class="checkmark-svg">
+                                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                </svg>
                             </div>
-                            <div class="form-group">
-                                <input type="email" v-model="contactForm.email" placeholder="Your Email *" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" v-model="contactForm.phone" placeholder="Phone Number">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" v-model="contactForm.company" placeholder="Company Name">
-                            </div>
-                            <div class="form-group">
-                                <select v-model="contactForm.subject">
-                                    <option value="">Select Subject *</option>
-                                    <option value="product-inquiry">Product Inquiry</option>
-                                    <option value="bulk-order">Bulk Order</option>
-                                    <option value="export-inquiry">Export Inquiry</option>
-                                    <option value="partnership">Partnership</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <textarea v-model="contactForm.message" placeholder="Your Message *" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-large" style="width:100%;justify-content:center;">
-                                <i class="fas fa-paper-plane"></i> Send Message
-                            </button>
-                            <div v-if="formMessage" class="form-message" :class="formMessage.type">
-                                {{ formMessage.text }}
-                            </div>
-                        </form>
+                            <h3 style="color:#2E7D32;margin-top:1rem;">Message Sent!</h3>
+                            <p style="color:#666;">We'll get back to you within 24 hours.</p>
+                        </div>
+
+                        <!-- Form -->
+                        <div v-if="!formSuccess">
+                            <h3>Send Us a Message</h3>
+                            <form @submit.prevent="submitForm">
+                                <div class="form-group" :class="{ 'has-error': formErrors.name }">
+                                    <input type="text" v-model="contactForm.name" @input="validateField('name')" placeholder="Your Name *" :disabled="isSubmitting">
+                                    <span class="field-error" v-if="formErrors.name">{{ formErrors.name }}</span>
+                                </div>
+                                <div class="form-group" :class="{ 'has-error': formErrors.email }">
+                                    <input type="email" v-model="contactForm.email" @input="validateField('email')" placeholder="Your Email *" :disabled="isSubmitting">
+                                    <span class="field-error" v-if="formErrors.email">{{ formErrors.email }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" v-model="contactForm.phone" placeholder="Phone Number" :disabled="isSubmitting">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" v-model="contactForm.company" placeholder="Company Name" :disabled="isSubmitting">
+                                </div>
+                                <div class="form-group">
+                                    <select v-model="contactForm.subject" :disabled="isSubmitting">
+                                        <option value="">Select Subject</option>
+                                        <option value="product-inquiry">Product Inquiry</option>
+                                        <option value="bulk-order">Bulk Order</option>
+                                        <option value="export-inquiry">Export Inquiry</option>
+                                        <option value="partnership">Partnership</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" :class="{ 'has-error': formErrors.message }">
+                                    <textarea v-model="contactForm.message" @input="validateField('message')" placeholder="Your Message *" rows="5" :disabled="isSubmitting"></textarea>
+                                    <span class="field-error" v-if="formErrors.message">{{ formErrors.message }}</span>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-large btn-submit" :disabled="isSubmitting" style="width:100%;justify-content:center;">
+                                    <span v-if="!isSubmitting"><i class="fas fa-paper-plane"></i> Send Message</span>
+                                    <span v-else class="spinner-wrap"><span class="spinner"></span> Sending...</span>
+                                </button>
+                                <div v-if="formMessage" class="form-message" :class="formMessage.type" style="margin-top:1rem;">
+                                    {{ formMessage.text }}
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
