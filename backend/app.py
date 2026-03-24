@@ -430,11 +430,11 @@ if __name__ == '__main__':
     port = int(os.getenv('FLASK_PORT', 5000))
     
     print("\n" + "="*50)
-    print("🌾 ASHNEX AGROTRADE - FLASK BACKEND")
+    print("ASHNEX AGROTRADE - FLASK BACKEND")
     print("="*50)
-    print(f"🚀 Server: {host}:{port}")
-    print(f"🗄️  MongoDB URI: {MONGO_DB_URI}")
-    print(f"📁 Database: {MONGO_DB_NAME}")
+    print(f"Server: {host}:{port}")
+    print(f"MongoDB URI: {MONGO_DB_URI}")
+    print(f"Database: {MONGO_DB_NAME}")
     print("="*50 + "\n")
     
     app.run(host=host, port=port, debug=debug_mode)
