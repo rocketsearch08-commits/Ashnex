@@ -281,7 +281,10 @@ p {
 }
 
 .logo-icon {
-    font-size: 2.2rem;
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    display: block;
 }
 
 .logo-text {
