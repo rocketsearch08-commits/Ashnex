@@ -3,296 +3,715 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Ashnex Agrotrade</title>
+    <title>Admin Panel | Ashnex Agrotrade</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
 
+        /* ===== HEADER ===== */
         .admin-header {
-            background: linear-gradient(135deg, #1a237e, #283593);
+            background: linear-gradient(135deg, #1a237e 0%, #283593 60%, #1b5e20 100%);
             color: #fff; padding: 1rem 2rem;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            position: sticky; top: 0; z-index: 100;
         }
-        .admin-header h1 { font-size: 1.3rem; font-weight: 600; }
-        .admin-header h1 span { color: #81c784; }
-        .admin-header .back-link { color: #fff; text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: 0.3s; }
-        .admin-header .back-link:hover { opacity: 1; }
+        .admin-header h1 { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+        .admin-header h1 span.brand { color: #81c784; }
+        .header-right { display: flex; align-items: center; gap: 1.5rem; }
+        .db-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+        .db-badge.connected { background: rgba(129,199,132,0.25); color: #81c784; border: 1px solid #81c784; }
+        .db-badge.disconnected { background: rgba(229,115,115,0.25); color: #ef9a9a; border: 1px solid #ef9a9a; }
+        .header-links { display: flex; gap: 1rem; }
+        .header-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.88rem; display: flex; align-items: center; gap: 0.3rem; transition: color 0.2s; }
+        .header-links a:hover { color: #fff; }
 
-        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 2rem; max-width: 1200px; margin: 0 auto; }
-        .stat-card { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 1rem; transition: transform 0.3s; }
-        .stat-card:hover { transform: translateY(-3px); }
-        .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+        /* ===== STATS ===== */
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; padding: 1.5rem 2rem; max-width: 1300px; margin: 0 auto; }
+        .stat-card { background: #fff; border-radius: 14px; padding: 1.2rem 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.07); display: flex; align-items: center; gap: 1rem; transition: transform 0.25s, box-shadow 0.25s; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
         .stat-icon.green { background: #e8f5e9; color: #2e7d32; }
         .stat-icon.blue { background: #e3f2fd; color: #1565c0; }
         .stat-icon.orange { background: #fff3e0; color: #e65100; }
         .stat-icon.purple { background: #f3e5f5; color: #7b1fa2; }
-        .stat-value { font-size: 1.8rem; font-weight: 700; color: #1a237e; }
-        .stat-label { font-size: 0.8rem; color: #999; margin-top: 0.2rem; }
+        .stat-value { font-size: 1.7rem; font-weight: 700; color: #1a237e; line-height: 1; }
+        .stat-label { font-size: 0.78rem; color: #999; margin-top: 0.3rem; }
 
-        .admin-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem 2rem; }
-        .section-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 1.5rem; overflow: hidden; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; border-bottom: 1px solid #f0f0f0; }
-        .section-header h2 { font-size: 1.1rem; color: #1a237e; }
-        .refresh-btn { background: #e8f5e9; color: #2e7d32; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-family: 'Poppins'; font-weight: 500; font-size: 0.85rem; transition: 0.3s; display: flex; align-items: center; gap: 0.4rem; }
-        .refresh-btn:hover { background: #c8e6c9; }
-        .refresh-btn.loading i { animation: spin 0.8s linear infinite; }
+        /* ===== TABS ===== */
+        .tabs-wrapper { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
+        .tabs { display: flex; gap: 0; border-bottom: 2px solid #e0e0e0; margin-bottom: 1.5rem; }
+        .tab-btn { padding: 0.75rem 1.5rem; background: none; border: none; font-family: 'Poppins'; font-size: 0.9rem; font-weight: 500; color: #999; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: color 0.2s, border-color 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+        .tab-btn:hover { color: #1a237e; }
+        .tab-btn.active { color: #1a237e; border-bottom-color: #1a237e; }
+        .tab-btn .badge { background: #1a237e; color: #fff; border-radius: 20px; font-size: 0.68rem; padding: 0.1rem 0.5rem; font-weight: 600; }
 
-        .messages-table { width: 100%; border-collapse: collapse; }
-        .messages-table th { background: #f8f9fa; padding: 0.8rem 1rem; text-align: left; font-size: 0.8rem; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        .messages-table td { padding: 0.9rem 1rem; border-top: 1px solid #f0f0f0; font-size: 0.88rem; vertical-align: top; }
-        .messages-table tr:hover td { background: #f8f9fa; }
+        /* ===== CONTENT ===== */
+        .admin-content { max-width: 1300px; margin: 0 auto; padding: 0 2rem 3rem; }
+        .section-card { background: #fff; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); overflow: hidden; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.5rem; border-bottom: 1px solid #f0f0f0; }
+        .section-header h2 { font-size: 1rem; color: #1a237e; display: flex; align-items: center; gap: 0.5rem; }
+
+        /* ===== BUTTONS ===== */
+        .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.55rem 1.1rem; border-radius: 8px; font-family: 'Poppins'; font-weight: 500; font-size: 0.85rem; cursor: pointer; border: none; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, #1a237e, #283593); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-success { background: #e8f5e9; color: #2e7d32; }
+        .btn-success:hover { background: #c8e6c9; }
+        .btn-danger { background: #ffebee; color: #c62828; }
+        .btn-danger:hover { background: #ffcdd2; }
+        .btn-edit { background: #e3f2fd; color: #1565c0; }
+        .btn-edit:hover { background: #bbdefb; }
+        .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.78rem; }
+        .btn.loading i { animation: spin 0.8s linear infinite; }
+
+        /* ===== TABLE ===== */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #f8f9fa; padding: 0.8rem 1rem; text-align: left; font-size: 0.78rem; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .data-table td { padding: 0.85rem 1rem; border-top: 1px solid #f0f0f0; font-size: 0.875rem; vertical-align: middle; }
+        .data-table tr:hover td { background: #fafafa; }
+        .td-name { font-weight: 600; color: #1a237e; }
+        .td-desc { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #555; font-size: 0.82rem; }
+        .td-actions { display: flex; gap: 0.5rem; }
+        .category-badge { display: inline-block; padding: 0.18rem 0.65rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; background: #e8f5e9; color: #2e7d32; }
+        .price-val { font-weight: 600; color: #e65100; }
         .msg-name { font-weight: 600; color: #1a237e; }
-        .msg-email { color: #2e7d32; font-size: 0.82rem; }
-        .msg-text { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #555; }
+        .msg-email { color: #2e7d32; font-size: 0.8rem; }
+        .msg-text { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #555; }
         .msg-time { font-size: 0.78rem; color: #999; white-space: nowrap; }
         .status-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; }
         .status-badge.new { background: #e8f5e9; color: #2e7d32; }
 
-        .empty-state { padding: 3rem; text-align: center; color: #999; }
-        .empty-state i { font-size: 3rem; margin-bottom: 1rem; color: #ddd; }
+        /* ===== EMPTY STATE ===== */
+        .empty-state { padding: 3rem; text-align: center; color: #bbb; }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; }
+        .empty-state p { font-size: 0.9rem; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.2s; }
-        .modal-content { background: #fff; border-radius: 16px; width: 90%; max-width: 550px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: slideUp 0.3s; overflow: hidden; }
-        .modal-header { background: linear-gradient(135deg, #1a237e, #283593); color: #fff; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { font-size: 1rem; }
-        .modal-close { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; opacity: 0.8; }
+        /* ===== MODAL ===== */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.2s; padding: 1rem; }
+        .modal-box { background: #fff; border-radius: 16px; width: 100%; max-width: 560px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: slideUp 0.3s; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column; }
+        .modal-header { background: linear-gradient(135deg, #1a237e, #283593); color: #fff; padding: 1.1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .modal-header h3 { font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .modal-close { background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer; opacity: 0.8; line-height: 1; }
         .modal-close:hover { opacity: 1; }
-        .modal-body { padding: 1.5rem; }
-        .modal-field { margin-bottom: 1rem; }
-        .modal-field label { display: block; font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
-        .modal-field p { font-size: 0.95rem; color: #333; line-height: 1.5; }
-        .modal-field.message-body p { background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 3px solid #2e7d32; }
+        .modal-body { padding: 1.5rem; overflow-y: auto; }
+        .modal-footer { padding: 1rem 1.5rem; background: #f8f9fa; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 0.75rem; flex-shrink: 0; }
 
-        .delete-btn { background: #ffebee; color: #c62828; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem; transition: 0.3s; }
-        .delete-btn:hover { background: #ffcdd2; }
+        /* ===== FORM ===== */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { font-size: 0.78rem; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.4px; }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.7rem 0.9rem; border: 1.5px solid #e0e0e0; border-radius: 8px;
+            font-family: 'Poppins'; font-size: 0.88rem; color: #333; transition: border-color 0.2s;
+            background: #fff;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: #1a237e; box-shadow: 0 0 0 3px rgba(26,35,126,0.08);
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-error { color: #c62828; font-size: 0.8rem; margin-top: 0.3rem; }
 
-        .login-container { max-width: 400px; margin: 10vh auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); padding: 2.5rem; text-align: center; }
-        .login-container h2 { color: #1a237e; margin-bottom: 0.5rem; }
-        .login-container p { color: #999; font-size: 0.9rem; margin-bottom: 1.5rem; }
-        .login-container input { width: 100%; padding: 0.85rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-family: 'Poppins'; font-size: 0.95rem; margin-bottom: 1rem; transition: 0.3s; }
-        .login-container input:focus { outline: none; border-color: #1a237e; }
-        .login-btn { width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #1a237e, #283593); color: #fff; border: none; border-radius: 8px; font-family: 'Poppins'; font-weight: 600; font-size: 0.95rem; cursor: pointer; }
-        .login-btn:hover { opacity: 0.9; }
+        /* ===== MESSAGE DETAIL ===== */
+        .detail-field { margin-bottom: 1rem; }
+        .detail-field label { display: block; font-size: 0.72rem; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+        .detail-field p { font-size: 0.92rem; color: #333; line-height: 1.5; }
+        .detail-field.message-body p { background: #f8f9fa; padding: 0.9rem; border-radius: 8px; border-left: 3px solid #2e7d32; }
+
+        /* ===== TOAST ===== */
+        .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.75rem; }
+        .toast { padding: 0.85rem 1.2rem; border-radius: 10px; font-size: 0.875rem; font-weight: 500; color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 0.6rem; animation: slideInRight 0.3s; min-width: 260px; }
+        .toast.success { background: #2e7d32; }
+        .toast.error { background: #c62828; }
+        .toast.info { background: #1565c0; }
+
+        /* ===== LOGIN ===== */
+        .login-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #1b5e20 100%); padding: 1rem; }
+        .login-card { background: #fff; border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+        .login-logo { font-size: 2.5rem; margin-bottom: 1rem; }
+        .login-card h2 { color: #1a237e; font-size: 1.5rem; margin-bottom: 0.3rem; }
+        .login-card p { color: #999; font-size: 0.88rem; margin-bottom: 2rem; }
+        .login-card input { width: 100%; padding: 0.85rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-family: 'Poppins'; font-size: 0.95rem; margin-bottom: 1rem; transition: border-color 0.2s; }
+        .login-card input:focus { outline: none; border-color: #1a237e; }
+        .login-submit { width: 100%; padding: 0.9rem; background: linear-gradient(135deg, #1a237e, #283593); color: #fff; border: none; border-radius: 10px; font-family: 'Poppins'; font-weight: 600; font-size: 1rem; cursor: pointer; transition: opacity 0.2s; }
+        .login-submit:hover { opacity: 0.9; }
         .login-error { color: #c62828; font-size: 0.85rem; margin-top: 0.5rem; }
-        .db-badge { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        .db-badge.connected { background: #e8f5e9; color: #2e7d32; }
-        .db-badge.disconnected { background: #ffebee; color: #c62828; }
+        .login-hint { margin-top: 1.5rem; font-size: 0.75rem; color: #bbb; }
 
+        /* ===== ANIMATIONS ===== */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideInRight { from { transform: translateX(30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes spin { to { transform: rotate(360deg); } }
-        @media (max-width: 768px) { .stats-row { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1rem; } .admin-content { padding: 0 1rem 1rem; } .messages-table { display: block; overflow-x: auto; } }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); padding: 1rem; }
+            .tabs-wrapper, .admin-content { padding: 0 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .data-table { display: block; overflow-x: auto; }
+        }
     </style>
 </head>
 <body>
-    <div id="admin-app">
-        <!-- Login Screen -->
-        <div v-if="!isLoggedIn">
-            <div class="login-container">
-                <div style="font-size:2.5rem;margin-bottom:1rem;">🔒</div>
-                <h2>Admin Dashboard</h2>
-                <p>Enter your admin API key to access the dashboard</p>
-                <form @submit.prevent="login">
-                    <input type="password" v-model="apiKey" placeholder="Enter Admin API Key" autofocus>
-                    <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</button>
-                    <p class="login-error" v-if="loginError">{{ loginError }}</p>
-                </form>
-                <p style="margin-top:1.5rem;font-size:0.78rem;color:#bbb;">Default: admin_key_change_in_production</p>
-            </div>
-        </div>
+<div id="admin-app">
 
-        <!-- Dashboard -->
-        <div v-if="isLoggedIn">
-            <div class="admin-header">
-                <h1>🌾 Ashnex <span>Admin Dashboard</span>
-                    &nbsp;<span class="db-badge" :class="dbStatus">{{ dbStatus === 'connected' ? '🟢 MongoDB' : '🔴 DB Offline' }}</span>
-                </h1>
-                <div>
-                    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Website</a>
-                    &nbsp;&nbsp;
-                    <a href="#" class="back-link" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
-
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-icon green"><i class="fas fa-envelope"></i></div>
-                    <div><div class="stat-value">{{ stats.totalContacts }}</div><div class="stat-label">Total Messages</div></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon blue"><i class="fas fa-star"></i></div>
-                    <div><div class="stat-value">{{ stats.newContacts }}</div><div class="stat-label">New (Unread)</div></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon orange"><i class="fas fa-box"></i></div>
-                    <div><div class="stat-value">{{ stats.totalOrders }}</div><div class="stat-label">Bulk Orders</div></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon purple"><i class="fas fa-cube"></i></div>
-                    <div><div class="stat-value">{{ stats.totalProducts }}</div><div class="stat-label">Products</div></div>
-                </div>
-            </div>
-
-            <div class="admin-content">
-                <div class="section-card">
-                    <div class="section-header">
-                        <h2><i class="fas fa-inbox"></i> &nbsp;Contact Messages</h2>
-                        <button class="refresh-btn" :class="{ loading: isRefreshing }" @click="fetchContacts">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
-                    </div>
-                    <div v-if="contacts.length > 0">
-                        <table class="messages-table">
-                            <thead>
-                                <tr>
-                                    <th>Name & Email</th>
-                                    <th>Phone</th>
-                                    <th>Subject</th>
-                                    <th>Message</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="contact in contacts" :key="contact._id" @click="openMessage(contact)" style="cursor:pointer;">
-                                    <td>
-                                        <div class="msg-name">{{ contact.name }}</div>
-                                        <div class="msg-email">{{ contact.email }}</div>
-                                    </td>
-                                    <td>{{ contact.phone || '—' }}</td>
-                                    <td>{{ contact.subject || 'General' }}</td>
-                                    <td class="msg-text">{{ contact.message }}</td>
-                                    <td class="msg-time">{{ formatDate(contact.createdAt) }}</td>
-                                    <td><span class="status-badge" :class="contact.status">{{ contact.status }}</span></td>
-                                    <td><button class="delete-btn" @click.stop="deleteContact(contact._id)"><i class="fas fa-trash"></i></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div v-else class="empty-state">
-                        <i class="fas fa-inbox"></i>
-                        <p>No messages yet. Submitted contact forms will appear here.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Message Modal -->
-            <div class="modal-overlay" v-if="selectedMessage" @click.self="selectedMessage = null">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3><i class="fas fa-envelope-open"></i> &nbsp;Message Details</h3>
-                        <button class="modal-close" @click="selectedMessage = null">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-field"><label>From</label><p><strong>{{ selectedMessage.name }}</strong></p></div>
-                        <div class="modal-field"><label>Email</label><p><a :href="'mailto:' + selectedMessage.email" style="color:#2e7d32;">{{ selectedMessage.email }}</a></p></div>
-                        <div class="modal-field" v-if="selectedMessage.phone"><label>Phone</label><p><a :href="'tel:' + selectedMessage.phone" style="color:#1565c0;">{{ selectedMessage.phone }}</a></p></div>
-                        <div class="modal-field" v-if="selectedMessage.company"><label>Company</label><p>{{ selectedMessage.company }}</p></div>
-                        <div class="modal-field" v-if="selectedMessage.subject"><label>Subject</label><p>{{ selectedMessage.subject }}</p></div>
-                        <div class="modal-field message-body"><label>Message</label><p>{{ selectedMessage.message }}</p></div>
-                        <div class="modal-field"><label>Received</label><p style="font-size:0.85rem;color:#999;">{{ formatDate(selectedMessage.createdAt) }}</p></div>
-                    </div>
-                </div>
-            </div>
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div v-if="!isLoggedIn" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">🌾</div>
+            <h2>Ashnex Admin</h2>
+            <p>Enter your admin API key to manage your website content</p>
+            <form @submit.prevent="login">
+                <input type="password" v-model="apiKey" placeholder="Enter Admin API Key" autofocus>
+                <button type="submit" class="login-submit">
+                    <i class="fas fa-sign-in-alt"></i> &nbsp;Login
+                </button>
+                <p class="login-error" v-if="loginError">{{ loginError }}</p>
+            </form>
+            <p class="login-hint">Default key: admin_key_change_in_production</p>
         </div>
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script>
-        const API_BASE_URL = window.location.hostname === 'localhost'
-            ? 'http://localhost:5000'
-            : 'https://ashnex-backend-rr54.onrender.com';
+    <!-- ===== DASHBOARD ===== -->
+    <div v-if="isLoggedIn">
 
-        const { createApp } = Vue;
-        createApp({
-            data() {
-                return {
-                    isLoggedIn: false,
-                    apiKey: '',
-                    loginError: '',
-                    isRefreshing: false,
-                    dbStatus: 'disconnected',
-                    contacts: [],
-                    stats: { totalContacts: 0, newContacts: 0, totalOrders: 0, totalProducts: 0 },
-                    selectedMessage: null
-                };
-            },
-            methods: {
-                async login() {
-                    this.loginError = '';
-                    try {
-                        const res = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
-                            headers: { 'Authorization': `Bearer ${this.apiKey}` }
-                        });
-                        if (res.ok) {
-                            const data = await res.json();
-                            this.isLoggedIn = true;
-                            this.stats = data.dashboard;
-                            this.dbStatus = 'connected';
-                            localStorage.setItem('ashnex_admin_key', this.apiKey);
-                            this.fetchContacts();
-                        } else {
-                            this.loginError = 'Invalid API key.';
-                        }
-                    } catch (e) {
-                        this.loginError = 'Cannot connect to server. Is the backend running?';
-                    }
+        <!-- Header -->
+        <div class="admin-header">
+            <h1>
+                🌾 Ashnex <span class="brand">Admin Panel</span>
+                &nbsp;
+                <span class="db-badge" :class="dbStatus">
+                    {{ dbStatus === 'connected' ? '🟢 DB Connected' : '🔴 DB Offline' }}
+                </span>
+            </h1>
+            <div class="header-links">
+                <a href="index.html"><i class="fas fa-globe"></i> View Website</a>
+                <a href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="fas fa-box"></i></div>
+                <div>
+                    <div class="stat-value">{{ stats.totalProducts }}</div>
+                    <div class="stat-label">Total Products</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-envelope"></i></div>
+                <div>
+                    <div class="stat-value">{{ stats.totalContacts }}</div>
+                    <div class="stat-label">Total Messages</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-star"></i></div>
+                <div>
+                    <div class="stat-value">{{ stats.newContacts }}</div>
+                    <div class="stat-label">New (Unread)</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="fas fa-shopping-basket"></i></div>
+                <div>
+                    <div class="stat-value">{{ stats.totalOrders }}</div>
+                    <div class="stat-label">Bulk Orders</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-wrapper">
+            <div class="tabs">
+                <button class="tab-btn" :class="{ active: activeTab === 'products' }" @click="switchTab('products')">
+                    <i class="fas fa-box"></i> Products
+                    <span class="badge">{{ stats.totalProducts }}</span>
+                </button>
+                <button class="tab-btn" :class="{ active: activeTab === 'contacts' }" @click="switchTab('contacts')">
+                    <i class="fas fa-envelope"></i> Messages
+                    <span class="badge">{{ contacts.length }}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== PRODUCTS TAB ===== -->
+        <div class="admin-content" v-show="activeTab === 'products'">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2><i class="fas fa-box"></i> Product Manager</h2>
+                    <div style="display:flex;gap:0.6rem;">
+                        <button class="btn btn-success" :class="{ loading: isRefreshing }" @click="fetchProducts">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="btn btn-primary" @click="openAddProduct">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div v-if="products.length > 0">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Price / Unit</th>
+                                <th>Min Order</th>
+                                <th style="text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="product in products" :key="product._id">
+                                <td class="td-name">{{ product.name }}</td>
+                                <td><span class="category-badge">{{ product.category }}</span></td>
+                                <td class="td-desc">{{ product.description }}</td>
+                                <td><span class="price-val">₹{{ product.price }}</span> / {{ product.unit }}</td>
+                                <td>{{ product.minOrder || '—' }}</td>
+                                <td>
+                                    <div class="td-actions" style="justify-content:flex-end;">
+                                        <button class="btn btn-edit btn-sm" @click="openEditProduct(product)">
+                                            <i class="fas fa-pen"></i> Edit
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" @click="deleteProduct(product._id, product.name)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-else class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <p>No products yet. Click "Add Product" to start adding products.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CONTACTS TAB ===== -->
+        <div class="admin-content" v-show="activeTab === 'contacts'">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2><i class="fas fa-inbox"></i> Contact Messages</h2>
+                    <button class="btn btn-success" :class="{ loading: isRefreshing }" @click="fetchContacts">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <div v-if="contacts.length > 0">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name & Email</th>
+                                <th>Phone</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="contact in contacts" :key="contact._id" @click="openMessage(contact)" style="cursor:pointer;">
+                                <td>
+                                    <div class="msg-name">{{ contact.name }}</div>
+                                    <div class="msg-email">{{ contact.email }}</div>
+                                </td>
+                                <td>{{ contact.phone || '—' }}</td>
+                                <td>{{ contact.subject || 'General' }}</td>
+                                <td class="msg-text">{{ contact.message }}</td>
+                                <td class="msg-time">{{ formatDate(contact.createdAt) }}</td>
+                                <td><span class="status-badge" :class="contact.status">{{ contact.status }}</span></td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" @click.stop="deleteContact(contact._id)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-else class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No messages yet. Submitted contact forms will appear here.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ADD / EDIT PRODUCT MODAL ===== -->
+        <div class="modal-overlay" v-if="productModal.show" @click.self="closeProductModal">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <h3>
+                        <i :class="productModal.isEdit ? 'fas fa-pen' : 'fas fa-plus-circle'"></i>
+                        {{ productModal.isEdit ? 'Edit Product' : 'Add New Product' }}
+                    </h3>
+                    <button class="modal-close" @click="closeProductModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Product Name *</label>
+                            <input type="text" v-model="productForm.name" placeholder="e.g. Premium Cashew">
+                        </div>
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select v-model="productForm.category">
+                                <option value="">— Select Category —</option>
+                                <option>Cashew</option>
+                                <option>Ginger</option>
+                                <option>Turmeric</option>
+                                <option>Chili</option>
+                                <option>Spices</option>
+                                <option>Banana</option>
+                                <option>Seeds</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label>Description *</label>
+                            <textarea v-model="productForm.description" placeholder="Describe this product..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₹ per unit) *</label>
+                            <input type="number" v-model="productForm.price" placeholder="e.g. 450" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Unit *</label>
+                            <select v-model="productForm.unit">
+                                <option value="">— Select Unit —</option>
+                                <option>kg</option>
+                                <option>ton</option>
+                                <option>MT</option>
+                                <option>box</option>
+                                <option>piece</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Order</label>
+                            <input type="text" v-model="productForm.minOrder" placeholder="e.g. 500 kg">
+                        </div>
+                        <div class="form-group">
+                            <label>Image Filename</label>
+                            <input type="text" v-model="productForm.image" placeholder="e.g. cashew.png">
+                        </div>
+                    </div>
+                    <p class="form-error" v-if="productModal.error">{{ productModal.error }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" @click="closeProductModal">Cancel</button>
+                    <button class="btn btn-primary" @click="saveProduct" :disabled="productModal.saving">
+                        <i class="fas fa-save"></i>
+                        {{ productModal.saving ? 'Saving...' : (productModal.isEdit ? 'Update Product' : 'Add Product') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MESSAGE DETAIL MODAL ===== -->
+        <div class="modal-overlay" v-if="selectedMessage" @click.self="selectedMessage = null">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <h3><i class="fas fa-envelope-open"></i> Message Details</h3>
+                    <button class="modal-close" @click="selectedMessage = null">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="detail-field"><label>From</label><p><strong>{{ selectedMessage.name }}</strong></p></div>
+                    <div class="detail-field"><label>Email</label><p><a :href="'mailto:' + selectedMessage.email" style="color:#2e7d32;">{{ selectedMessage.email }}</a></p></div>
+                    <div class="detail-field" v-if="selectedMessage.phone"><label>Phone</label><p><a :href="'tel:' + selectedMessage.phone" style="color:#1565c0;">{{ selectedMessage.phone }}</a></p></div>
+                    <div class="detail-field" v-if="selectedMessage.company"><label>Company</label><p>{{ selectedMessage.company }}</p></div>
+                    <div class="detail-field" v-if="selectedMessage.subject"><label>Subject</label><p>{{ selectedMessage.subject }}</p></div>
+                    <div class="detail-field message-body"><label>Message</label><p>{{ selectedMessage.message }}</p></div>
+                    <div class="detail-field"><label>Received</label><p style="color:#999;font-size:0.85rem;">{{ formatDate(selectedMessage.createdAt) }}</p></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" @click="deleteContact(selectedMessage._id); selectedMessage = null">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                    <a :href="'mailto:' + selectedMessage.email" class="btn btn-primary">
+                        <i class="fas fa-reply"></i> Reply via Email
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- end isLoggedIn -->
+
+    <!-- ===== TOAST NOTIFICATIONS ===== -->
+    <div class="toast-container">
+        <div v-for="toast in toasts" :key="toast.id" class="toast" :class="toast.type">
+            <i :class="toast.icon"></i> {{ toast.message }}
+        </div>
+    </div>
+
+</div><!-- end #admin-app -->
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5000'
+        : 'https://ashnex-backend-rr54.onrender.com';
+
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                // Auth
+                isLoggedIn: false,
+                apiKey: '',
+                loginError: '',
+
+                // UI state
+                dbStatus: 'disconnected',
+                isRefreshing: false,
+                activeTab: 'products',
+
+                // Data
+                products: [],
+                contacts: [],
+                stats: { totalProducts: 0, totalContacts: 0, newContacts: 0, totalOrders: 0 },
+
+                // Product modal
+                productModal: {
+                    show: false,
+                    isEdit: false,
+                    editId: null,
+                    error: '',
+                    saving: false
                 },
-                logout() {
-                    this.isLoggedIn = false;
-                    this.apiKey = '';
-                    localStorage.removeItem('ashnex_admin_key');
+                productForm: {
+                    name: '', category: '', description: '',
+                    price: '', unit: '', minOrder: '', image: ''
                 },
-                async fetchContacts() {
-                    this.isRefreshing = true;
-                    try {
-                        const [contactsRes, dashRes] = await Promise.all([
-                            fetch(`${API_BASE_URL}/api/contacts`, { headers: { 'Authorization': `Bearer ${this.apiKey}` } }),
-                            fetch(`${API_BASE_URL}/api/admin/dashboard`, { headers: { 'Authorization': `Bearer ${this.apiKey}` } })
-                        ]);
-                        if (contactsRes.ok) {
-                            const data = await contactsRes.json();
-                            this.contacts = data.contacts || [];
-                        }
-                        if (dashRes.ok) {
-                            const data = await dashRes.json();
-                            this.stats = data.dashboard;
-                        }
+
+                // Message modal
+                selectedMessage: null,
+
+                // Toasts
+                toasts: []
+            };
+        },
+
+        methods: {
+            /* ============ AUTH ============ */
+            async login() {
+                this.loginError = '';
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
+                        headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        this.isLoggedIn = true;
+                        this.stats = data.dashboard;
                         this.dbStatus = 'connected';
-                    } catch (e) {
-                        this.dbStatus = 'disconnected';
-                        console.error(e);
+                        localStorage.setItem('ashnex_admin_key', this.apiKey);
+                        this.fetchProducts();
+                        this.fetchContacts();
+                    } else {
+                        this.loginError = 'Invalid API key. Please try again.';
                     }
-                    this.isRefreshing = false;
-                },
-                openMessage(contact) { this.selectedMessage = contact; },
-                async deleteContact(id) {
-                    if (!confirm('Delete this message permanently?')) return;
-                    try {
-                        const res = await fetch(`${API_BASE_URL}/api/contacts/${id}`, {
-                            method: 'DELETE',
-                            headers: { 'Authorization': `Bearer ${this.apiKey}` }
-                        });
-                        if (res.ok) {
-                            this.contacts = this.contacts.filter(c => c._id !== id);
-                            this.stats.totalContacts--;
-                        }
-                    } catch (e) { console.error(e); }
-                },
-                formatDate(dateStr) {
-                    if (!dateStr) return '—';
-                    return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                } catch (e) {
+                    this.loginError = 'Cannot connect to server. Is the backend running?';
                 }
             },
-            mounted() {
-                const saved = localStorage.getItem('ashnex_admin_key');
-                if (saved) { this.apiKey = saved; this.login(); }
+
+            logout() {
+                this.isLoggedIn = false;
+                this.apiKey = '';
+                localStorage.removeItem('ashnex_admin_key');
+            },
+
+            /* ============ TABS ============ */
+            switchTab(tab) {
+                this.activeTab = tab;
+            },
+
+            /* ============ PRODUCTS ============ */
+            async fetchProducts() {
+                this.isRefreshing = true;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/products`, {
+                        headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        this.products = data.products || [];
+                        this.stats.totalProducts = this.products.length;
+                    }
+                } catch (e) {
+                    this.showToast('Failed to load products', 'error');
+                }
+                this.isRefreshing = false;
+            },
+
+            openAddProduct() {
+                this.productForm = { name: '', category: '', description: '', price: '', unit: '', minOrder: '', image: '' };
+                this.productModal = { show: true, isEdit: false, editId: null, error: '', saving: false };
+            },
+
+            openEditProduct(product) {
+                this.productForm = {
+                    name: product.name || '',
+                    category: product.category || '',
+                    description: product.description || '',
+                    price: product.price || '',
+                    unit: product.unit || '',
+                    minOrder: product.minOrder || '',
+                    image: product.image || ''
+                };
+                this.productModal = { show: true, isEdit: true, editId: product._id, error: '', saving: false };
+            },
+
+            closeProductModal() {
+                this.productModal.show = false;
+            },
+
+            async saveProduct() {
+                const f = this.productForm;
+                if (!f.name.trim() || !f.category || !f.description.trim() || !f.price || !f.unit) {
+                    this.productModal.error = 'Please fill in all required fields (marked with *).';
+                    return;
+                }
+                this.productModal.error = '';
+                this.productModal.saving = true;
+                const payload = {
+                    name: f.name.trim(),
+                    category: f.category,
+                    description: f.description.trim(),
+                    price: parseFloat(f.price),
+                    unit: f.unit,
+                    minOrder: f.minOrder.trim(),
+                    image: f.image.trim()
+                };
+                try {
+                    let res;
+                    if (this.productModal.isEdit) {
+                        res = await fetch(`${API_BASE_URL}/api/products/${this.productModal.editId}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.apiKey}` },
+                            body: JSON.stringify(payload)
+                        });
+                    } else {
+                        res = await fetch(`${API_BASE_URL}/api/products`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.apiKey}` },
+                            body: JSON.stringify(payload)
+                        });
+                    }
+                    if (res.ok) {
+                        this.showToast(this.productModal.isEdit ? 'Product updated successfully!' : 'Product added successfully!', 'success');
+                        this.closeProductModal();
+                        await this.fetchProducts();
+                        await this.refreshStats();
+                    } else {
+                        const err = await res.json();
+                        this.productModal.error = err.message || 'Failed to save product.';
+                    }
+                } catch (e) {
+                    this.productModal.error = 'Server error. Please try again.';
+                }
+                this.productModal.saving = false;
+            },
+
+            async deleteProduct(id, name) {
+                if (!confirm(`Delete "${name}" permanently? This cannot be undone.`)) return;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                    });
+                    if (res.ok) {
+                        this.products = this.products.filter(p => p._id !== id);
+                        this.stats.totalProducts--;
+                        this.showToast(`"${name}" deleted.`, 'info');
+                    }
+                } catch (e) {
+                    this.showToast('Failed to delete product.', 'error');
+                }
+            },
+
+            /* ============ CONTACTS ============ */
+            async fetchContacts() {
+                try {
+                    const [contactsRes, dashRes] = await Promise.all([
+                        fetch(`${API_BASE_URL}/api/contacts`, { headers: { 'Authorization': `Bearer ${this.apiKey}` } }),
+                        fetch(`${API_BASE_URL}/api/admin/dashboard`, { headers: { 'Authorization': `Bearer ${this.apiKey}` } })
+                    ]);
+                    if (contactsRes.ok) {
+                        const data = await contactsRes.json();
+                        this.contacts = data.contacts || [];
+                    }
+                    if (dashRes.ok) {
+                        const data = await dashRes.json();
+                        this.stats = data.dashboard;
+                    }
+                    this.dbStatus = 'connected';
+                } catch (e) {
+                    this.dbStatus = 'disconnected';
+                }
+            },
+
+            async refreshStats() {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
+                        headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                    });
+                    if (res.ok) { const d = await res.json(); this.stats = d.dashboard; }
+                } catch (e) {}
+            },
+
+            openMessage(contact) { this.selectedMessage = contact; },
+
+            async deleteContact(id) {
+                if (!confirm('Delete this message permanently?')) return;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/contacts/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                    });
+                    if (res.ok) {
+                        this.contacts = this.contacts.filter(c => c._id !== id);
+                        this.stats.totalContacts--;
+                        this.showToast('Message deleted.', 'info');
+                    }
+                } catch (e) { this.showToast('Failed to delete message.', 'error'); }
+            },
+
+            /* ============ UTILS ============ */
+            formatDate(dateStr) {
+                if (!dateStr) return '—';
+                return new Date(dateStr).toLocaleDateString('en-IN', {
+                    day: 'numeric', month: 'short', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                });
+            },
+
+            showToast(message, type = 'success') {
+                const icons = { success: 'fas fa-check-circle', error: 'fas fa-exclamation-circle', info: 'fas fa-info-circle' };
+                const id = Date.now();
+                this.toasts.push({ id, message, type, icon: icons[type] });
+                setTimeout(() => { this.toasts = this.toasts.filter(t => t.id !== id); }, 3500);
             }
-        }).mount('#admin-app');
-    </script>
+        },
+
+        mounted() {
+            const saved = localStorage.getItem('ashnex_admin_key');
+            if (saved) { this.apiKey = saved; this.login(); }
+        }
+
+    }).mount('#admin-app');
+</script>
 </body>
 </html>
